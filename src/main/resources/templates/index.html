@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>ToDo view page</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"></meta>
+  <!-- Bootstrap -->
+  <link href="webjars/bootstrap/3.3.2/css/bootstrap.min.css" rel="stylesheet" media="screen"></link>
+</head>
+<body>
+<script src="http://code.jquery.com/jquery.js"></script>
+<script src="webjars/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+<div class="container-fluid">
+  <br/><br/>
+
+  <form class="form-inline">
+    <div class="bs-callout bs-callout-danger" id="callout-inline-form-width">
+        Example URL
+        <p></p>
+        GET , PUT : /todos/ , todos/${id}/
+        <p></p>
+        POST : /todos/
+        <p></p>
+        Example Request
+        <p></p>
+        POST : {"contents":"sample" , "statusType":"Y"}
+        <p></p>
+        PUT : {"id":"1", "contents":"sample" , "statusType":"Y"}
+        <p></p>
+        GET : ?contents=sample
+        <p></p>
+        GET : ?modDtsBefore=2020-03-10T12:00:00&modDtsAfter=2018-03-10T12:00:00 (regDts or modDts ?? ??..)
+        <p></p>
+        GET : ?offset=0&limit=1 (default offset=0, limit=10)
+        <p></p>
+        GET : ?ids=1,2,3
+    </div>
+  </form>
+  <form class="form-inline">
+    <div class="form-group">
+      <label for="url">http://localhost:8080/todos/</label>
+      <input type="text" class="form-control" id="url" placeholder="url">
+    </div>
+  </form>
+  <form class="form-inline">
+    <div class="form-group">
+      <label for="inputJson">input json</label>
+      <input type="text" class="form-control" id="inputJson" placeholder="json input">
+    </div>
+    <button type="button" class="btn btn-default" id="get">GET</button>
+    <button type="button" class="btn btn-default" id="post">POST</button>
+    <button type="button" class="btn btn-default" id="put">PUT</button>
+  </form>
+</div>
+<div class="bs-callout bs-callout-danger" id="callout-inline-form-width">
+  <h4>Result Json</h4>
+  <p></p><code id="resultJson"></code>
+</div>
+
+<script src="js/index.js"></script>
+</body>
+</html>

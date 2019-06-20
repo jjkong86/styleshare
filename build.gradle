@@ -1,0 +1,46 @@
+buildscript {
+    ext { springBootVersion = '2.1.4.RELEASE' }
+}
+
+plugins {
+	id 'org.springframework.boot' version '2.1.4.RELEASE'
+	id 'java'
+}
+
+apply plugin: 'io.spring.dependency-management'
+
+group = 'styleshare.task'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = '1.8'
+
+configurations {
+	compileOnly {
+		extendsFrom annotationProcessor
+	}
+}
+
+repositories {
+	mavenCentral()
+}
+
+dependencies {
+	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+	compileOnly 'org.projectlombok:lombok'
+	annotationProcessor 'org.projectlombok:lombok'
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	compile('org.springframework.boot:spring-boot-starter-web')
+	compile('javax.servlet:jstl')
+    compile('org.apache.tomcat.embed:tomcat-embed-jasper')
+    implementation 'org.springframework.boot:spring-boot-starter-jdbc'
+    implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:2.0.0'
+    testCompile ("org.springframework.boot:spring-boot-starter-test:$springBootVersion") {
+        exclude group: 'com.vaadin.external.google'
+        exclude group:"org.slf4j"
+    }
+    
+    // https://mvnrepository.com/artifact/org.springframework/springloaded
+	compile group: 'org.springframework', name: 'springloaded', version: '1.2.8.RELEASE'
+	
+	compile 'com.h2database:h2'
+    compile group: 'org.webjars', name: 'bootstrap', version: '3.3.2'
+}
