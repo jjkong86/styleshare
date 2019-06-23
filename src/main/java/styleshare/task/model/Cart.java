@@ -10,10 +10,13 @@ import org.apache.ibatis.type.Alias;
 @ToString
 @Getter
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
-@Alias("todo_accum")
-public class TodoAccum {
+@Alias("CART")
+public class Cart {
 
-    private String totalCount;
-    private LocalDateTime modDts;
-    private LocalDateTime regDts;
+    private Long id;
+    private Long user_id;
+    private Long goods_id;
+    private Long goods_detail_id;
+    private LocalDateTime regDtm;
+    private LocalDateTime updDtm;
 }

@@ -10,11 +10,15 @@ import org.apache.ibatis.type.Alias;
 @ToString
 @Getter
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
-@Alias("todo")
-public class Todo {
+@Alias("GOODS")
+public class Goods {
     private Long id;
-    private String contents;
-    private String statusType;
-    private LocalDateTime regDts;
-    private LocalDateTime modDts;
+    private String name;
+    private String provider;
+    private Long price;
+    private String shipping_method;
+    private Long shipping_price;
+    private Boolean shipping_canBundle;
+    private LocalDateTime regDtm;
+    private LocalDateTime updDtm;
 }

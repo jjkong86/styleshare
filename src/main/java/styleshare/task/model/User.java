@@ -1,22 +1,18 @@
 package styleshare.task.model;
 
+import java.time.LocalDateTime;
 import lombok.AccessLevel;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 import org.apache.ibatis.type.Alias;
 
+@ToString
 @Getter
-@Alias("reftodo")
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
-public class RefTodo {
-
+@Alias("USER")
+public class User {
     private Long id;
-    private Long refId;
-
-    @Builder
-    private RefTodo(Long id, Long refId) {
-        this.id = id;
-        this.refId = refId;
-    }
+    private LocalDateTime regDtm;
+    private LocalDateTime updDtm;
 }
