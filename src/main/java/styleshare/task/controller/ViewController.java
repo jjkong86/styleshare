@@ -12,6 +12,7 @@ import com.google.gson.Gson;
 import com.google.gson.stream.JsonReader;
 
 import lombok.extern.slf4j.Slf4j;
+import styleshare.task.mapper.CommerceMapper;
 import styleshare.task.model.GoodsArray;
 import styleshare.task.model.GoodsConvert;
 
@@ -19,8 +20,23 @@ import styleshare.task.model.GoodsConvert;
 @Controller
 public class ViewController {
 
+	private final CommerceMapper commerceMapper;
+
+    public ViewController(CommerceMapper commerceMapper) {
+        this.commerceMapper = commerceMapper;
+    }
+	
     @GetMapping("/")
     public String index() throws IOException {
+    	Gson gson = new Gson();
+    	JsonReader reader = new JsonReader(new FileReader("src/main/resources/goods.json"));
+    	GoodsArray data = gson.fromJson(reader, GoodsArray.class);
+    	ArrayList<GoodsConvert> list = data.getGoods();
+    	for (GoodsConvert goods : list) {
+//    		long shippingPrice = goods.getShipping().getPrice();
+//    		goods.getShipping().setPrice(shippingPrice);
+    		commerceMapper.insertGoods(goods);
+		}
         return "index";
     }
     
@@ -29,8 +45,9 @@ public class ViewController {
     	JsonReader reader = new JsonReader(new FileReader("src/main/resources/goods.json"));
     	GoodsArray data = gson.fromJson(reader, GoodsArray.class);
     	ArrayList<GoodsConvert> list = data.getGoods();
-    	for (GoodsConvert g : list) {
-			System.out.println(g.toString());
+    	for (GoodsConvert goods : list) {
+    		System.out.println(goods.toString());
+//    		commerceMapper.insertGoods(goods);
 		}
 	}
 }

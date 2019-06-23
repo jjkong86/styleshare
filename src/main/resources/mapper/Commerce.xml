@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="styleshare.task.mapper.CommerceMapper">
+
+	<resultMap type="styleshare.task.model.GoodsConvert" id="goodsConvert">
+		<result column="id" property="id"/>
+		<result column="name" property="name"/>
+		<result column="provider" property="provider"/>
+		<result column="price" property="price"/>
+		<collection property="shipping" resultMap="shipping"/>
+	</resultMap>
+	
+	<resultMap type="styleshare.task.model.Shipping" id="shipping">
+		<result column="method" property="method"/>
+		<result column="price" property="shipping_price"/>
+		<result column="canBundle" property="canBundle"/>
+	</resultMap>
+
+	<insert id="insertGoods" parameterMap="goodsConvert">
+		INSERT INTO GOODS (
+			id, name, provider, price, shipping_method, shipping_price, 
+			shipping_canBundle)
+		VALUES (#{id}, #{name}, #{provider}, #{price}, #{method}, #{shipping_price}, #{canBundle})
+	</insert>
+
+</mapper>

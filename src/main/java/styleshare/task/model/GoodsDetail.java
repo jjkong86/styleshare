@@ -14,6 +14,7 @@ import org.apache.ibatis.type.Alias;
 
 @Data
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
+@Alias("GOODS_DETAIL")
 public class GoodsDetail {
 
     private Long id;
