@@ -15,15 +15,20 @@
 	
 	<resultMap type="styleshare.task.model.Shipping" id="shipping">
 		<result column="method" property="method"/>
-		<result column="price" property="shipping_price"/>
+		<result column="price" property="price"/>
 		<result column="canBundle" property="canBundle"/>
 	</resultMap>
 
-	<insert id="insertGoods" parameterMap="goodsConvert">
+	<insert id="insertGoods" parameterType="goodsConvert">
 		INSERT INTO GOODS (
 			id, name, provider, price, shipping_method, shipping_price, 
 			shipping_canBundle)
-		VALUES (#{id}, #{name}, #{provider}, #{price}, #{method}, #{shipping_price}, #{canBundle})
+		VALUES (#{id}, #{name}, #{provider}, #{price}, #{shipping.method}, #{shipping.price}, #{shipping.canBundle})
+	</insert>
+	
+	<insert id="insertGoodsDetail">
+		INSERT INTO GOODS_DETAIL (id, color, size, stock, goods_id)
+		VALUES (#{id}, #{color}, #{size}, #{stock}, #{goods_id})
 	</insert>
 
 </mapper>
