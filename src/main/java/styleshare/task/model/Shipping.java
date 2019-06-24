@@ -1,10 +1,5 @@
 package styleshare.task.model;
 
-import javax.persistence.Column;
-
-import com.fasterxml.jackson.annotation.JsonProperty;
-
-import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -15,6 +10,6 @@ import lombok.ToString;
 public class Shipping {
 	
     private String method;
-    private Long price;
+    private long price;
     private Boolean canBundle;
 }

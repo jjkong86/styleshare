@@ -12,7 +12,7 @@ import org.apache.ibatis.type.Alias;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 @Alias("USER")
 public class User {
-    private Long id;
+    private long id;
     private LocalDateTime regDtm;
     private LocalDateTime updDtm;
 }

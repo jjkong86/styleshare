@@ -5,8 +5,8 @@
 
 <mapper namespace="styleshare.task.mapper.CommerceMapper">
 
-	<resultMap type="styleshare.task.model.GoodsConvert" id="goodsConvert">
-		<result column="id" property="id"/>
+	<resultMap type="styleshare.task.model.Goods" id="parserGoods">
+		<id column="id" property="id"/>
 		<result column="name" property="name"/>
 		<result column="provider" property="provider"/>
 		<result column="price" property="price"/>
@@ -14,12 +14,22 @@
 	</resultMap>
 	
 	<resultMap type="styleshare.task.model.Shipping" id="shipping">
-		<result column="method" property="method"/>
-		<result column="price" property="price"/>
-		<result column="canBundle" property="canBundle"/>
+		<result column="shipping_method" property="method"/>
+		<result column="shipping_price" property="price"/>
+		<result column="shipping_canBundle" property="canBundle"/>
+	</resultMap>
+	
+	<resultMap type="styleshare.task.model.GoodsDetail" id="parserGoodsDetail">
+		<id column="id" property="id"/>
+		<result column="color" property="color"/>
+		<result column="size" property="size"/>
+		<result column="stock" property="stock"/>
+		<result column="goods_id" property="goods_id"/>
+		<result column="regDtm" property="regDtm"/>
+		<result column="updDtm" property="updDtm"/>
 	</resultMap>
 
-	<insert id="insertGoods" parameterType="goodsConvert">
+	<insert id="insertGoods" parameterType="goods">
 		INSERT INTO GOODS (
 			id, name, provider, price, shipping_method, shipping_price, 
 			shipping_canBundle)
@@ -30,5 +40,17 @@
 		INSERT INTO GOODS_DETAIL (id, color, size, stock, goods_id)
 		VALUES (#{id}, #{color}, #{size}, #{stock}, #{goods_id})
 	</insert>
-
+	
+	<select id="goodsAll" resultMap="parserGoods">
+		SELECT * FROM GOODS ORDER BY ID ASC
+	</select>
+	
+	<select id="goodsDetailAll" resultMap="parserGoodsDetail">
+		SELECT * FROM GOODS_DETAIL ORDER BY GOODS_ID ASC
+	</select>
+	
+	<select id="goodsToId">
+		SELECT * FROM GOODS WHERE ID = #{id}
+	</select>
+	
 </mapper>

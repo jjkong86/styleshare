@@ -2,7 +2,7 @@ package styleshare.task;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
-import java.util.ArrayList;
+import java.util.List;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -19,8 +19,8 @@ import com.google.gson.Gson;
 import com.google.gson.stream.JsonReader;
 
 import styleshare.task.mapper.CommerceMapper;
-import styleshare.task.model.GoodsArray;
-import styleshare.task.model.GoodsConvert;
+import styleshare.task.model.Goods;
+import styleshare.task.response.GoodsListRespose;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = ApplicationTests.class)
@@ -45,9 +45,9 @@ public class ApplicationTests {
 	public void jsonToParseAndInsert() throws FileNotFoundException {
     	Gson gson = new Gson();
     	JsonReader reader = new JsonReader(new FileReader("src/main/resources/goods.json"));
-    	GoodsArray data = gson.fromJson(reader, GoodsArray.class);
-    	ArrayList<GoodsConvert> list = data.getGoods();
-    	for (GoodsConvert goods : list) {
+    	GoodsListRespose data = gson.fromJson(reader, GoodsListRespose.class);
+    	List<Goods> list = data.getGoods();
+    	for (Goods goods : list) {
     		commerceMapper.insertGoods(goods);
 		}
 		

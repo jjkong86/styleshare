@@ -13,10 +13,10 @@ import org.apache.ibatis.type.Alias;
 @Alias("CART")
 public class Cart {
 
-    private Long id;
-    private Long user_id;
-    private Long goods_id;
-    private Long goods_detail_id;
+    private long id;
+    private long user_id;
+    private long goods_id;
+    private long goods_detail_id;
     private LocalDateTime regDtm;
     private LocalDateTime updDtm;
 }
