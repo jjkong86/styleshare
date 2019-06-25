@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>Goods List</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+  <link rel="stylesheet" href="/css/bootstrap.min.css">
+</head>
+<style>
+  html, body { font-family: Roboto, AppleSDGothicNeoM00; }
+  .goods_c {
+  	width: 23%;
+  	height : 100px;
+  	float: left;
+  	margin : 5px;
+  	border: 1px solid black;
+  }
+  
+</style>
+
+<body>
+<div class="container_top">
+	<div>구매하기</div>
+	<div>가격</div>
+</div>
+<div class="container_middle">
+</div>
+
+<script type="text/javascript" src="/js/jquery-3.4.0.min.js"></script>
+<script type="text/javascript" src="/js/popper.min.js"></script>
+<script type="text/javascript" src="/js/bootstrap.min.js"></script>
+
+<script>
+    $(function () {
+        $.post("goods", null, function (data) {
+            console.log(data);
+            if (data.code != '200') {
+            	return false;
+            }
+            var goods = data.goods;
+            var str='';
+            for (var i=0; i<goods.length; i++) {
+            	str += '<div class="goods_c">'
+            		+ '<input type="checkbox" id='+goods[i].id+'>'
+            		+ goods[i].name
+            		+ '<select id="goods_option">'
+            		+ '<option id="" selected>'
+            		+ '옵션을 선택하세요'
+            		+ '</option>';
+					
+					var option_stock = '<select id="option_stock">';
+//             		var option_stock = '<select id="option_stock" style="display:none">';
+					
+            		for (var j=0; j<goods[i].options.length; j++) {
+            			var option = goods[i].options[j];
+            			var option_str = option.color + ' / ' + option.size + ' / 수량 : '+option.stock;
+            			str += '<option id='
+            				+ option.id
+            				+'>'
+            				+ option_str
+            				+ '</option>';
+            			
+            			var stock = option.stock == 0 ? '품절' : option.stock; 
+            			option_stock += '<option id='
+            						 + 'stock_' + option.id 
+            						 +'>'
+            						 + stock
+            						 + '</option>';
+            			
+            		}
+            		option_stock += '</select>';
+            		
+            	str	+= '</select>'
+            		+ option_stock
+            		+ '</div>';
+            	
+            }
+            $('.container_middle').html(str);
+        });
+    });
+</script>
+
+</body>
+</html>

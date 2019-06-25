@@ -1,24 +1,17 @@
 package styleshare.task.controller;
 
-import java.io.IOException;
-
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
 
-import styleshare.task.service.CommerceService;
+import lombok.extern.slf4j.Slf4j;
 
-@RestController
+@Slf4j
+@Controller
 public class ViewController {
-	
-    private final CommerceService commerceService;
 
-    public ViewController(CommerceService commerceService) {
-        this.commerceService = commerceService;
-    }
-	
     @GetMapping("/")
-    public String index() throws IOException {
-    	String res = "Hello World! This is index.";
-        return res;
+    public String index() {
+        return "index";
     }
+
 }

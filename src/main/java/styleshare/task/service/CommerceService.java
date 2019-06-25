@@ -41,13 +41,11 @@ public class CommerceService {
     	
     	List<GoodsDetail> goodsDetail = commerceMapper.goodsDetailAll();
     	log.info(goodsDetail.toString());
-    	if (goodsDetail.isEmpty()) {
-    		
-    	}
     	
     	Map<Long, Goods> map = new HashMap<>();
     	for (Goods g : goods) {
 			map.put(g.getId(), g);
+			goodsList.getGoods().add(g);
 		}
     	
     	for (int i = 0; i < goodsDetail.size(); i++) {
@@ -55,11 +53,6 @@ public class CommerceService {
 			if (map.containsKey(id)) {
 				map.get(id).getOptions().add(goodsDetail.get(i));
 			}
-		}
-    	
-    	for (int i = 0; i < goods.size(); i++) {
-    		goodsList.getGoods().add(goods.get(i));
-    		log.info("opdation size : {}", goods.get(i).getOptions().size());
 		}
     	
 		return goodsList;
