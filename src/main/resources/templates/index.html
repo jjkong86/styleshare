@@ -7,10 +7,10 @@
   <link rel="stylesheet" href="/css/bootstrap.min.css">
 </head>
 <style>
-  html, body { font-family: Roboto, AppleSDGothicNeoM00; }
+/*   html, body { font-family: Roboto, AppleSDGothicNeoM00; } */
   .goods_c {
   	width: 23%;
-  	height : 100px;
+  	height : 120px;
   	float: left;
   	margin : 5px;
   	border: 1px solid black;
@@ -20,8 +20,11 @@
 
 <body>
 <div class="container_top">
-	<div>구매하기</div>
-	<div>가격</div>
+	<div>장바구니 담기
+		<div style="float: right;">장바구니로 이동</div>
+	</div>
+	<div>가격 : <span id="checked_price">0</span></div>
+	
 </div>
 <div class="container_middle">
 </div>
@@ -41,9 +44,13 @@
             var str='';
             for (var i=0; i<goods.length; i++) {
             	str += '<div class="goods_c">'
-            		+ '<input type="checkbox" id='+goods[i].id+'>'
+            		+ '<div>'
+            		+ '장바구니 담기'
+            		+ '</div>'
+            		+ '<div><input type="checkbox" id="check_'+goods[i].id+'" onclick="checkEvt();">'
             		+ goods[i].name
-            		+ '<select id="goods_option">'
+            		+ '</div>'
+            		+ '<div><select id="goods_option">'
             		+ '<option id="" selected>'
             		+ '옵션을 선택하세요'
             		+ '</option>';
@@ -72,12 +79,23 @@
             		
             	str	+= '</select>'
             		+ option_stock
+            		+ '</div>'
+            		+ '<div id = "goods_price">'
+            		+ '가격 : '+goods[i].price
+            		+ '</div>'
             		+ '</div>';
             	
             }
             $('.container_middle').html(str);
         });
     });
+    
+    function checkEvt() {
+    	var goods_price = $('#checked_price').text();
+    	var check_id = $(this).attr('id');
+//     	var addPrice = check_id.siblings().attr('id');
+//     	goods_price += addPrice;
+    }
 </script>
 
 </body>
