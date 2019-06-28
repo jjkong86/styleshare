@@ -7,6 +7,8 @@ import org.apache.ibatis.annotations.Mapper;
 
 import styleshare.task.model.Goods;
 import styleshare.task.model.GoodsDetail;
+import styleshare.task.request.PutAllGoodsToCartRequest;
+import styleshare.task.request.PutGoodsToCartRequest;
 import styleshare.task.response.GoodsRespose;
 
 @Mapper
@@ -20,5 +22,9 @@ public interface CommerceMapper {
 	List<GoodsDetail> goodsDetailAll();
 
 	GoodsRespose goodsToId();
+
+	int insertGoodsToCart(PutAllGoodsToCartRequest param);
+
+	int putGoodsToCart(PutGoodsToCartRequest param);
 
 }

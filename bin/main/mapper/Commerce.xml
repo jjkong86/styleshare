@@ -53,4 +53,19 @@
 		SELECT * FROM GOODS WHERE ID = #{id}
 	</select>
 	
+	<insert id="insertGoodsToCart" useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO CART('GOODS_ID', 'GOODS_DETAIL_ID', 'REG_DTM', 'UPD_DTM')
+		VALUES (#{GOODS_ID}, #{GOODS_DETAIL_ID}, NOW(), NOW()) 
+	</insert>
+	
+	<insert id="putAllGoodsToCart" useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO CART('GOODS_ID', 'GOODS_DETAIL_ID', 'REG_DTM', 'UPD_DTM')
+		SELECT GOODS_ID, ID, NOW(), NOW() FROM GOODS_DETAIL WHERE 1=1
+		<if test="goodsList != null">
+			ID IN
+			<foreach collection="goodsList" item="goodsList" separator="," open="(" close=")">
+				#{goodsList.goods_detail_id}
+			</foreach>
+		</if> 
+	</insert>
 </mapper>

@@ -1,6 +1,6 @@
 package styleshare.task.service;
 
-import static styleshare.task.constants.Constants.JSON_FILE_PATH;
+import static styleshare.task.constants.Constants.*;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -17,6 +17,9 @@ import lombok.extern.slf4j.Slf4j;
 import styleshare.task.mapper.CommerceMapper;
 import styleshare.task.model.Goods;
 import styleshare.task.model.GoodsDetail;
+import styleshare.task.request.PutAllGoodsToCartRequest;
+import styleshare.task.request.PutGoodsToCartRequest;
+import styleshare.task.response.CartResponse;
 import styleshare.task.response.GoodsListRespose;
 import styleshare.task.response.GoodsRespose;
 
@@ -76,8 +79,25 @@ public class CommerceService {
 
 	public GoodsRespose goodsToId(int id) {
 		GoodsRespose goods = commerceMapper.goodsToId();
-		
-		return null;
+		return goods;
+	}
+
+	public CartResponse putAllGoodsToCart(PutAllGoodsToCartRequest param) {
+		CartResponse res = new CartResponse();
+		if (commerceMapper.insertGoodsToCart(param) < 1) {
+			res.setCode(CODE_ERROR);
+			res.setError(ERROR_MESSAGE);
+		}
+		return res;
+	}
+
+	public CartResponse putGoodsToCart(PutGoodsToCartRequest param) {
+		CartResponse res = new CartResponse();
+		if (commerceMapper.putGoodsToCart(param) < 1) {
+			res.setCode(CODE_ERROR);
+			res.setError(ERROR_MESSAGE);
+		}
+		return res;
 	}
 
 }

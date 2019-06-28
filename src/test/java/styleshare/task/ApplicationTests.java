@@ -10,6 +10,7 @@ import org.junit.runner.RunWith;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
@@ -20,6 +21,7 @@ import com.google.gson.stream.JsonReader;
 
 import styleshare.task.mapper.CommerceMapper;
 import styleshare.task.model.Goods;
+import styleshare.task.model.GoodsDetail;
 import styleshare.task.response.GoodsListRespose;
 
 @RunWith(SpringRunner.class)
@@ -27,7 +29,7 @@ import styleshare.task.response.GoodsListRespose;
 @MapperScan(basePackages = "styleshare.task.mapper")
 public class ApplicationTests {
 
-	@Autowired
+	@MockBean
 	private CommerceMapper commerceMapper;
 	
     private MockMvc mockMvc;
@@ -48,7 +50,11 @@ public class ApplicationTests {
     	GoodsListRespose data = gson.fromJson(reader, GoodsListRespose.class);
     	List<Goods> list = data.getGoods();
     	for (Goods goods : list) {
-    		commerceMapper.insertGoods(goods);
+    		System.out.println(goods.toString());
+    		for (int i = 0; i < goods.getOptions().size(); i++) {
+				System.out.println(goods.getOptions().get(i));
+			}
+    		System.out.println("=========================================================");
 		}
 		
 	}

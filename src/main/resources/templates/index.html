@@ -14,53 +14,75 @@
   	float: left;
   	margin : 5px;
   	border: 1px solid black;
+  	min-width: 200px;
   }
   
 </style>
 
 <body>
 <div class="container_top">
-	<div>장바구니 담기
-		<div style="float: right;">장바구니로 이동</div>
+	<div><span style="cursor: pointer;" id="putAllGoodsToCart">장바구니 담기</span>
+		<div id="nextBtn" style="float: right; margin-right: 5%; cursor: pointer;">장바구니로 이동</div>
 	</div>
-	<div>가격 : <span id="checked_price">0</span></div>
+	<div>가격 : <span id="checked_price">0</span>( 배송비 : <span id="checked_shipping">0</span>)</div>
+	<div>전체선택 <input type="checkbox" id="all_checked"></div>
 	
 </div>
-<div class="container_middle">
-</div>
+<form action="/cart.do" id="inputForm">
+	<div class="container_middle">
+	</div>
+</form>
 
 <script type="text/javascript" src="/js/jquery-3.4.0.min.js"></script>
 <script type="text/javascript" src="/js/popper.min.js"></script>
 <script type="text/javascript" src="/js/bootstrap.min.js"></script>
 
 <script>
+	var goodsData = {};
+	var shippings={};
+	var SHIPPING_FREE = "FREE";
+	var SHIPPING_METHOD = ['method', 'price', 'canBundle'];
     $(function () {
-        $.post("goods", null, function (data) {
-            console.log(data);
-            if (data.code != '200') {
-            	return false;
-            }
-            var goods = data.goods;
-            var str='';
-            for (var i=0; i<goods.length; i++) {
-            	str += '<div class="goods_c">'
-            		+ '<div>'
-            		+ '장바구니 담기'
-            		+ '</div>'
-            		+ '<div><input type="checkbox" id="check_'+goods[i].id+'" onclick="checkEvt();">'
-            		+ goods[i].name
-            		+ '</div>'
-            		+ '<div><select id="goods_option">'
-            		+ '<option id="" selected>'
-            		+ '옵션을 선택하세요'
-            		+ '</option>';
-					
-					var option_stock = '<select id="option_stock">';
-//             		var option_stock = '<select id="option_stock" style="display:none">';
-					
+		goodsList();
+        bindEvt();
+    });
+    
+    function goodsList() {
+		$.ajax({
+	        url : 'goods',
+	        type: "POST",
+	        dataType : "json",
+	        async:false,
+	        success : function(data){
+	            var goods = data.goods;
+	            var str='';
+	            for (var i=0; i<goods.length; i++) {
+	            	goodsData[goods[i].id] = goods[i];
+	            	var shipping = {};
+	            	for (var method of SHIPPING_METHOD) {
+	            		shipping[method] = goods[i].shipping[method];
+	            	}
+	            	shipping.provider = goods[i].provider;
+	            	shippings[goods[i].id+"_"+goods[i].provider] = shipping;
+	            	
+	            	str += '<div class="goods_c">'
+	            		+ '<div style="cursor: pointer;" class="putGoodsToCart" id="'+goods[i].id+'">'
+	            		+ '장바구니 담기'
+	            		+ '</div>'
+	            		+ '<div>'
+	            		+ '<input type="checkbox" id="check_'+goods[i].id+"_"+goods[i].provider+'" value="'+goods[i].price+'">'
+	            		+ goods[i].name
+	            		+ '</div>'
+	            		+ '<div id="'
+	            		+ goods[i].id
+	            		+ '"><select class="goods_option" data-selected="">'
+	            		+ '<option id="" selected>'
+	            		+ '옵션을 선택하세요'
+	            		+ '</option>';
+						
             		for (var j=0; j<goods[i].options.length; j++) {
             			var option = goods[i].options[j];
-            			var option_str = option.color + ' / ' + option.size + ' / 수량 : '+option.stock;
+            			var option_str = option.color + ' / ' + option.size + ' / 재고 : '+option.stock;
             			str += '<option id='
             				+ option.id
             				+'>'
@@ -68,33 +90,168 @@
             				+ '</option>';
             			
             			var stock = option.stock == 0 ? '품절' : option.stock; 
-            			option_stock += '<option id='
-            						 + 'stock_' + option.id 
-            						 +'>'
-            						 + stock
-            						 + '</option>';
-            			
             		}
-            		option_stock += '</select>';
-            		
-            	str	+= '</select>'
-            		+ option_stock
-            		+ '</div>'
-            		+ '<div id = "goods_price">'
-            		+ '가격 : '+goods[i].price
-            		+ '</div>'
-            		+ '</div>';
-            	
-            }
-            $('.container_middle').html(str);
-        });
-    });
+	            		
+	            	str	+= '</select>'
+						+ '<div class="stock_amount"></div>'
+	            		+ '</div>'
+	            		+ '<div id = "goods_price">'
+	            		+ '가격 : '+goods[i].price
+	            		+ '</div>'
+	            		+ '</div>';
+	            	
+	            }
+	            $('.container_middle').html(str);
+	        }
+	    });
+		console.log(goodsData);
+		console.log(shippings);
+    }
     
-    function checkEvt() {
-    	var goods_price = $('#checked_price').text();
-    	var check_id = $(this).attr('id');
-//     	var addPrice = check_id.siblings().attr('id');
-//     	goods_price += addPrice;
+    function bindEvt() {
+    	
+    	$('#nextBtn').click(function () {
+    		
+    	});
+    	
+    	$('[id^=check_]').click(function () {
+			calculationPrice();
+		});
+        
+		 //전체선택
+	    $('#all_checked').click(function () {
+	        if ($('#all_checked').prop('checked')) {
+	            $('input[type=checkbox]').prop('checked', true); 
+	        } else {
+	            $('input[type=checkbox]').prop('checked', false);
+	        }
+	        calculationPrice();
+	    });
+		 
+		$('.goods_option').change(function () {
+			var id = $(this).parent().attr('id');
+			var goodsDetailId = $(this).children(':selected').attr('id');
+			$(this).data('selected', goodsDetailId);
+			console.log($(this).data('selected'));
+			var selectedStock = 0;
+			var options = goodsData[id].options;
+			for (var option of options) {
+				if (option.id == goodsDetailId) {
+					selectedStock = option.stock > 10 ? 10 : option.stock;
+				}
+			}
+			$(this).siblings('.stock_amount').empty();
+			var str = '<select class="option_stock"><option id="">수량을 선택하세요</option>';
+			for (var i=1; i<=selectedStock; i++) {
+				str += '<option id="'+i+'">' + i + '</option>';
+			}
+			str += '</select>';
+			$(this).siblings('.stock_amount').html(str);
+			
+			$('.option_stock').on("change", selectAmount);
+		});
+		
+		function selectAmount() {
+			var id = $(this).parent().parent().attr('id');
+			var goodsDetailId = $(this).parent().siblings('.goods_option').data('selected');
+			var amount = $(this).children(':selected').attr('id');
+			
+			var insertId = "check_" + id;
+			$('input[id^="'+insertId+'"]').data('goodsid', id);
+			$('input[id^="'+insertId+'"]').data('goodsdetailid', goodsDetailId);
+			$('input[id^="'+insertId+'"]').data('amount', amount);
+			console.log($('input[id^="check_'+id+'"]').data());
+		}
+		 
+		 function calculationPrice() {
+			var price = 0;
+			var checked_shipping = {};
+			var shppingPrice = 0;
+			$('#inputForm').find('input[type=checkbox][id^=check_]').each(function(index, item) {
+				if ($(this).is(":checked")) {
+					price += parseInt($(this).val());
+					var id = $(this).attr('id').substring(6);
+					var provider = id.split('_')[1]; 
+					if (shippings[id].method != SHIPPING_FREE) {
+						if (shippings[id].canBundle == true && shippings[id].price != 0) {
+							if (checked_shipping[provider]) {
+								checked_shipping[provider] = Math.min(checked_shipping[provider], shippings[id].price);
+							} else {
+								checked_shipping[provider] = shippings[id].price;
+							}
+						} else {
+							checked_shipping[id] = shippings[id].price;
+						}
+					}
+				}
+			});
+			
+			for (var prop in checked_shipping) {
+				shppingPrice += checked_shipping[prop];
+			}
+			
+			if ($('input[type=checkbox]').prop('checked')) {
+				$('#all_checked').prop('checked');
+			} else {
+				$('#all_checked').prop('unchecked');
+			}
+			
+			$('#checked_shipping').text(shppingPrice);
+			$('#checked_price').text(price + shppingPrice);
+		 }
+		 
+		 function createSelectBox(stock) {
+			var str = "";
+			str += '</select>';
+			for (var i=1; i<=stock; i++) {
+				str += '<option id="'+i+'">' + i + '</option>'
+			}
+			str += '</select>';
+			return str;
+		 }
+		 
+		 $('.putGoodsToCart').click(function () {
+			var goodsId = $(this).attr('id');
+			var idData = $('input[id^="check_'+goodsId+'"]').data();
+			if (!validataionCheck(idData)) {
+				alert("상품 옵션과 수량을 선택 해 주세요.");
+				return false;
+			}
+			console.log(goodsId);
+			console.log(JSON.stringify($('input[id^="check_'+goodsId+'"]').data()));
+			$.ajax({
+			       url : 'put/cart/'+goodsId,
+			       type: "POST",
+			       contentType: 'application/json',
+			       dataType : "json",
+			       data : JSON.stringify($('input[id^="check_'+goodsId+'"]').data()),
+			       success : function(data){
+			       	
+			       }
+			});
+		 });
+		 
+		 $('#putAllGoodsToCart').click(function () {
+				
+			$.ajax({
+			       url : 'put/cart',
+			       type: "POST",
+			       contentType: 'application/json',
+			       dataType : "json",
+			       data : {},
+			       success : function(data){
+			       	
+			       }
+			});
+		 });
+		 
+		 function validataionCheck(data) {
+			 for ( var name in data ) {
+			        return true;
+			    }
+			    return false;
+		 }
+		 
     }
 </script>
 

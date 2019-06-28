@@ -228,6 +228,31 @@
         "price": 2500,
         "canBundle": true
       }
+    },
+        {
+      "id": 8,
+      "name": "Django Jacket",
+      "provider": "StyleShare",
+      "price": 2500,
+      "options": [
+        {
+          "id": 8001,
+          "color": "green",
+          "size": "M",
+          "stock": 1
+        },
+        {
+          "id": 8002,
+          "color": "green",
+          "size": "L",
+          "stock": 30
+        }
+      ],
+      "shipping": {
+        "method": "PREPAY",
+        "price": 2000,
+        "canBundle": true
+      }
     }
   ]
 }

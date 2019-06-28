@@ -14,7 +14,6 @@ import org.apache.ibatis.type.Alias;
 public class Cart {
 
     private long id;
-    private long user_id;
     private long goods_id;
     private long goods_detail_id;
     private LocalDateTime regDtm;
