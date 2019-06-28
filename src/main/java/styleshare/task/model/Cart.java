@@ -16,6 +16,7 @@ public class Cart {
     private long id;
     private long goods_id;
     private long goods_detail_id;
+    private long amount;
     private LocalDateTime regDtm;
     private LocalDateTime updDtm;
 }
