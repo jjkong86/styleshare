@@ -253,6 +253,31 @@
         "price": 2000,
         "canBundle": true
       }
+    },
+    {
+      "id": 9,
+      "name": "원피스",
+      "provider": "StyleShare",
+      "price": 25000,
+      "options": [
+        {
+          "id": 9001,
+          "color": "green",
+          "size": "S",
+          "stock": 10
+        },
+        {
+          "id": 9002,
+          "color": "yellow",
+          "size": "M",
+          "stock": 20
+        }
+      ],
+      "shipping": {
+        "method": "PREPAY",
+        "price": 3000,
+        "canBundle": true
+      }
     }
   ]
 }

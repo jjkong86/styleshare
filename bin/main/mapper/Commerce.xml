@@ -10,13 +10,29 @@
 		<result column="name" property="name"/>
 		<result column="provider" property="provider"/>
 		<result column="price" property="price"/>
+		<collection property="options" resultMap="options"/>
 		<collection property="shipping" resultMap="shipping"/>
+		<collection property="cart" resultMap="cart"/>
 	</resultMap>
 	
 	<resultMap type="styleshare.task.model.Shipping" id="shipping">
 		<result column="shipping_method" property="method"/>
 		<result column="shipping_price" property="price"/>
 		<result column="shipping_canBundle" property="canBundle"/>
+	</resultMap>
+	
+	<resultMap type="styleshare.task.model.GoodsDetail" id="options">
+		<result column="color" property="color"/>
+		<result column="size" property="size"/>
+		<result column="stock" property="stock"/>
+		<result column="goods_id" property="goods_id"/>
+	</resultMap>
+	
+	<resultMap type="styleshare.task.model.Cart" id="cart">
+		<result column="id" property="id"/>
+		<result column="goods_id" property="goods_id"/>
+		<result column="goods_detail_id" property="goods_detail_id"/>
+		<result column="amount" property="amount"/>
 	</resultMap>
 	
 	<resultMap type="styleshare.task.model.GoodsDetail" id="parserGoodsDetail">
@@ -45,27 +61,79 @@
 		SELECT * FROM GOODS ORDER BY ID ASC
 	</select>
 	
+		<select id="goodsToId" resultMap="parserGoods">
+		SELECT * FROM GOODS WHERE ID=#{id} ORDER BY ID ASC
+	</select>
+	
 	<select id="goodsDetailAll" resultMap="parserGoodsDetail">
 		SELECT * FROM GOODS_DETAIL ORDER BY GOODS_ID ASC
 	</select>
 	
-	<select id="goodsToId">
-		SELECT * FROM GOODS WHERE ID = #{id}
+	<select id="goodsToCartExisit" parameterType="styleshare.task.request.PutGoodsToCartRequest" resultType="int">
+		SELECT COUNT(*) FROM CART WHERE GOODS_DETAIL_ID=#{goods_detail_id} AND GOODS_ID=#{goods_id}
 	</select>
 	
-	<insert id="insertGoodsToCart" useGeneratedKeys="true" keyProperty="id">
-		INSERT INTO CART('GOODS_ID', 'GOODS_DETAIL_ID', 'AMOUNT', 'REG_DTM', 'UPD_DTM')
+	<select id="goodsListToCartExisit" parameterType="java.util.List" resultMap="parserGoods">
+		SELECT C.*, G.NAME FROM CART C 
+		INNER JOIN GOODS G ON C.GOODS_ID = G.ID
+		WHERE 1=1
+		<foreach collection="list" item="goodsList" separator="," open="AND (GOODS_ID, GOODS_DETAIL_ID) IN ( " close=" )">
+			(#{goodsList.goods_id}, #{goodsList.goods_detail_id})
+		</foreach>
+		ORDER BY GOODS_DETAIL_ID ASC
+	</select>
+	
+	<select id="cartCount" resultType="int">
+		SELECT COUNT(*) AS COUNT FROM CART
+	</select>
+	
+	<insert id="putGoodsToCart" parameterType="styleshare.task.request.PutGoodsToCartRequest" useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO CART(GOODS_ID, GOODS_DETAIL_ID, AMOUNT, REG_DTM, UPD_DTM)
 		VALUES (#{goods_id}, #{goods_detail_id}, #{amount}, NOW(), NOW()) 
 	</insert>
 	
-	<insert id="putAllGoodsToCart" useGeneratedKeys="true" keyProperty="id">
-		INSERT INTO CART('GOODS_ID', 'GOODS_DETAIL_ID', 'REG_DTM', 'UPD_DTM')
-		SELECT GOODS_ID, ID, NOW(), NOW() FROM GOODS_DETAIL WHERE 1=1
-		<if test="goodsList != null">
-			(ID, AMONT) IN
-			<foreach collection="goodsList" item="goodsList" separator="," open="(" close=")">
-				#{goodsList.goods_detail_id}, #{goodsList.amount}
-			</foreach>
-		</if> 
+	<insert id="putAllGoodsToCart" parameterType="java.util.List" useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO CART(GOODS_ID, GOODS_DETAIL_ID, AMOUNT, REG_DTM, UPD_DTM)
+		<foreach collection="list" item="goodsList" separator="," open="VALUES ">
+			(#{goodsList.goods_id}, #{goodsList.goods_detail_id}, #{goodsList.amount}, now(), now())
+		</foreach>
 	</insert>
+	
+	<select id="goodsDetailToCart" resultMap="parserGoods">
+		SELECT
+			C.ID,
+			C.GOODS_ID,
+			C.GOODS_DETAIL_ID,
+			C.AMOUNT,
+			G.NAME,
+			G.PROVIDER,
+			G.PRICE,
+			G.SHIPPING_METHOD,
+			G.SHIPPING_PRICE,
+			G.SHIPPING_CANBUNDLE,
+			D.COLOR,
+			D.SIZE,
+			D.STOCK
+		FROM CART C
+		INNER JOIN GOODS_DETAIL D ON C.GOODS_DETAIL_ID = D.ID
+		INNER JOIN GOODS G ON G.ID = D.GOODS_ID
+		ORDER BY C.GOODS_ID, C.GOODS_DETAIL_ID ASC
+	</select>
+	
+	<select id="goodsToCart" resultMap="parserGoods">
+		SELECT G.* FROM GOODS G INNER JOIN CART C ON G.ID = C.GOODS_ID ORDER BY G.ID ASC
+	</select>
+	
+	<delete id="multiPayment" parameterType="java.util.List">
+		DELETE FROM CART WHERE 1=1
+		<foreach collection="list" item="cartList" separator="," 
+			open="AND (GOODS_ID, GOODS_DETAIL_ID) IN ( " close=" )">
+			(#{cartList.goods_id}, #{cartList.goods_detail_id})
+		</foreach>
+	</delete>
+	
+	<update id="stockUpdate">
+		UPDATE GOODS_DETAIL SET STOCK=STOCK - #{amount} WHERE ID = #{goods_detail_id}
+	</update>
+	
 </mapper>

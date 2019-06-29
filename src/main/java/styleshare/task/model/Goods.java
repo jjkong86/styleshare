@@ -26,16 +26,5 @@ public class Goods {
     private Shipping shipping = new Shipping();
     private LocalDateTime regDtm;
     private LocalDateTime updDtm;
-    
-    @Builder
-    public Goods(Goods goods) {
-    	this.id = goods.getId();
-    	this.name = goods.getName();
-    	this.provider = goods.getProvider();
-    	shipping.setMethod(goods.getShipping().getMethod());
-    	shipping.setPrice(goods.getShipping().getPrice());
-    	shipping.setCanBundle(goods.getShipping().getCanBundle());
-    	this.regDtm = goods.getRegDtm();
-    	this.updDtm = goods.getUpdDtm();
-    }
+    private Cart cart;
 }

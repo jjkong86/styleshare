@@ -4,9 +4,11 @@ import lombok.Data;
 
 @Data
 public class PutGoodsToCartRequest {
+	private long id;
     private long goods_id;
     private long goods_detail_id;
     private long amount;
+    private String name;
     
-    PutGoodsToCartRequest(){};
+    public PutGoodsToCartRequest(){};
 }

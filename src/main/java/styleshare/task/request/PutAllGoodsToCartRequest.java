@@ -9,4 +9,8 @@ public class PutAllGoodsToCartRequest {
     private List<PutGoodsToCartRequest> goodsList;
     
     PutAllGoodsToCartRequest(){};
+    
+    PutAllGoodsToCartRequest(List<PutGoodsToCartRequest> goodsList){
+    	
+    };
 }

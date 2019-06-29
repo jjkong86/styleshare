@@ -1,15 +1,13 @@
 package styleshare.task.mapper;
 
 import java.util.List;
-import java.util.Set;
 
 import org.apache.ibatis.annotations.Mapper;
 
+import styleshare.task.model.CartList;
 import styleshare.task.model.Goods;
 import styleshare.task.model.GoodsDetail;
-import styleshare.task.request.PutAllGoodsToCartRequest;
 import styleshare.task.request.PutGoodsToCartRequest;
-import styleshare.task.response.GoodsRespose;
 
 @Mapper
 public interface CommerceMapper {
@@ -21,10 +19,24 @@ public interface CommerceMapper {
 	
 	List<GoodsDetail> goodsDetailAll();
 
-	GoodsRespose goodsToId();
+	Goods goodsToId(long id);
 
-	int insertGoodsToCart(PutAllGoodsToCartRequest param);
+	int putAllGoodsToCart(List<PutGoodsToCartRequest> param);
 
 	int putGoodsToCart(PutGoodsToCartRequest param);
+
+	int cartCount();
+
+	int goodsToCartExisit(PutGoodsToCartRequest param);
+
+	List<Goods> goodsListToCartExisit(List<PutGoodsToCartRequest> param);
+	
+	List<Goods> goodsToCart();
+
+	List<CartList> goodsDetailToCart();
+
+	int stockUpdate(PutGoodsToCartRequest param);
+
+	int multiPayment(List<PutGoodsToCartRequest> param);
 
 }

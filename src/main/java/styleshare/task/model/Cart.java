@@ -4,11 +4,13 @@ import java.time.LocalDateTime;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import lombok.ToString;
 import org.apache.ibatis.type.Alias;
 
 @ToString
 @Getter
+@Setter
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 @Alias("CART")
 public class Cart {

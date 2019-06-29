@@ -5,10 +5,13 @@ import lombok.Data;
 import styleshare.task.constants.Constants;
 
 @Data
-public class ApiCommonResponse implements Constants {
+public class ExceptionResponse implements Constants {
     int code = CODE_SUCCESS;
     String error;
     
-    public ApiCommonResponse() {
+    @Builder
+    public ExceptionResponse(int code, String error) {
+    	this.code = code;
+    	this.error = error;
     };
 }

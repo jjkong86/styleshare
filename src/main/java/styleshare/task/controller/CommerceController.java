@@ -1,6 +1,8 @@
 package styleshare.task.controller;
 
 import java.io.FileNotFoundException;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.transaction.Transactional;
 
@@ -9,14 +11,13 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.servlet.ModelAndView;
 
 import lombok.extern.slf4j.Slf4j;
-import styleshare.task.request.PutAllGoodsToCartRequest;
+import styleshare.task.model.CartList;
 import styleshare.task.request.PutGoodsToCartRequest;
+import styleshare.task.response.ApiCommonResponse;
 import styleshare.task.response.CartResponse;
 import styleshare.task.response.GoodsListRespose;
-import styleshare.task.response.GoodsRespose;
 import styleshare.task.service.CommerceService;
 
 @Slf4j
@@ -34,24 +35,60 @@ public class CommerceController {
     	return commerceService.goodsAll();
     }
     
-    @RequestMapping("/goods/{id}")
-    public GoodsRespose goodsToId(@PathVariable("id") int id) throws FileNotFoundException {
-    	return commerceService.goodsToId(id);
+    @RequestMapping("/cart")
+    public List<CartList> cartAll() {
+    	return commerceService.cartAll();
     }
     
     @Transactional
     @RequestMapping(value = "/put/cart", method = RequestMethod.POST)
-    public ModelAndView putAllGoodsToCart(@RequestBody PutAllGoodsToCartRequest param, ModelAndView mav) throws FileNotFoundException {
-    	CartResponse result = commerceService.putAllGoodsToCart(param);
-    	mav.addObject("result", result);
-    	return mav;
+    public ApiCommonResponse putAllGoodsToCart(@RequestBody List<PutGoodsToCartRequest> param) {
+    	ApiCommonResponse result = commerceService.putAllGoodsToCart(param);
+    	return result;
     }
     
     @Transactional
     @RequestMapping(value = "/put/cart/{goodsId}", method = RequestMethod.POST)
-    public CartResponse putGoodsToCart(@RequestBody PutGoodsToCartRequest param) throws FileNotFoundException {
-    	CartResponse result = commerceService.putGoodsToCart(param);
+    public ApiCommonResponse putGoodsToCart(@PathVariable("goodsId") int goodsId, @RequestBody PutGoodsToCartRequest param) {
+    	ApiCommonResponse result = commerceService.putGoodsToCart(goodsId, param);
     	return result;
     }
-
+    
+    @RequestMapping(value = "/get/cartCount")
+    public CartResponse cartCount() {
+    	CartResponse result = commerceService.cartCount();
+    	return result;
+    }
+    
+    @Transactional
+    @RequestMapping(value = "/put/payment", method = RequestMethod.POST)
+    public ApiCommonResponse multiPayment(@RequestBody List<PutGoodsToCartRequest> param) {
+    	ApiCommonResponse result = commerceService.multiPayment(param);
+    	return result;
+    }
+    
+    @Transactional
+    @RequestMapping(value = "/put/payment/{cartId}", method = RequestMethod.POST)
+    public ApiCommonResponse singlePayment(@PathVariable("cartId") int cartId, @RequestBody PutGoodsToCartRequest param) {
+    	List<PutGoodsToCartRequest> list = new ArrayList<>();
+    	list.add(param);
+    	ApiCommonResponse result = commerceService.multiPayment(list);
+    	return result;
+    }
+    
+    @Transactional
+    @RequestMapping(value = "/delete/cart", method = RequestMethod.POST)
+    public ApiCommonResponse deleteToCart(@RequestBody List<PutGoodsToCartRequest> param) {
+    	ApiCommonResponse result = commerceService.deleteToCart(param);
+    	return result;
+    }
+    
+    @Transactional
+    @RequestMapping(value = "/delete/cart/{cartId}", method = RequestMethod.POST)
+    public ApiCommonResponse singleDeleteToCart(@PathVariable("cartId") int cartId, @RequestBody PutGoodsToCartRequest param) {
+    	List<PutGoodsToCartRequest> list = new ArrayList<>();
+    	list.add(param);
+    	ApiCommonResponse result = commerceService.deleteToCart(list);
+    	return result;
+    }
 }
