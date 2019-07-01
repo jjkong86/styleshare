@@ -5,14 +5,19 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.transaction.Transactional;
+import javax.validation.Valid;
 
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.google.gson.Gson;
+
 import lombok.extern.slf4j.Slf4j;
+import styleshare.task.model.Cart;
 import styleshare.task.model.CartList;
 import styleshare.task.request.PutGoodsToCartRequest;
 import styleshare.task.response.ApiCommonResponse;
@@ -55,7 +60,11 @@ public class CommerceController {
     }
     
     @RequestMapping(value = "/get/cartCount")
-    public CartResponse cartCount() {
+    public CartResponse cartCount(@Valid Cart cart, BindingResult r) {
+    	if (r.hasErrors()) {
+    		log.info(r.getFieldError().getDefaultMessage());
+    		log.info(r.getFieldError().getCode());
+    	}
     	CartResponse result = commerceService.cartCount();
     	return result;
     }

@@ -1,6 +1,10 @@
 package styleshare.task.model;
 
 import java.time.LocalDateTime;
+
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
+
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -15,6 +19,7 @@ import org.apache.ibatis.type.Alias;
 @Alias("CART")
 public class Cart {
 
+	@Min(value=1, message="id is bigger than 0.")
     private long id;
     private long goods_id;
     private long goods_detail_id;
