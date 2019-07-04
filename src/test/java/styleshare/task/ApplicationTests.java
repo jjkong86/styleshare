@@ -1,5 +1,7 @@
 package styleshare.task;
 
+import static styleshare.task.constants.Constants.JSON_FILE_PATH;
+
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.util.List;
@@ -19,11 +21,14 @@ import org.springframework.web.context.WebApplicationContext;
 import com.google.gson.Gson;
 import com.google.gson.stream.JsonReader;
 
+import lombok.extern.slf4j.Slf4j;
+import styleshare.task.controller.CommerceController;
 import styleshare.task.mapper.CommerceMapper;
 import styleshare.task.model.Goods;
 import styleshare.task.model.GoodsDetail;
 import styleshare.task.response.GoodsListRespose;
 
+@Slf4j
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = ApplicationTests.class)
 @MapperScan(basePackages = "styleshare.task.mapper")
@@ -32,31 +37,33 @@ public class ApplicationTests {
 	@MockBean
 	private CommerceMapper commerceMapper;
 	
-    private MockMvc mockMvc;
-
-    @Autowired
-    private WebApplicationContext ctx;
-
-    @Before
-    public void setUp() {
-        this.mockMvc = MockMvcBuilders.webAppContextSetup(ctx).build();
-    }
+//    private MockMvc mockMvc;
+//
+//    @Autowired
+//    private WebApplicationContext ctx;
+//
+//    @Before
+//    public void setUp() {
+//        this.mockMvc = MockMvcBuilders.webAppContextSetup(ctx).build();
+//    }
 	
 	
 	@Test
-	public void jsonToParseAndInsert() throws FileNotFoundException {
+	public void goodsInsertToJsonFile() throws FileNotFoundException {
     	Gson gson = new Gson();
-    	JsonReader reader = new JsonReader(new FileReader("src/main/resources/goods.json"));
+    	JsonReader reader = new JsonReader(new FileReader(JSON_FILE_PATH));
     	GoodsListRespose data = gson.fromJson(reader, GoodsListRespose.class);
     	List<Goods> list = data.getGoods();
     	for (Goods goods : list) {
-    		System.out.println(goods.toString());
-    		for (int i = 0; i < goods.getOptions().size(); i++) {
-				System.out.println(goods.getOptions().get(i));
+    		log.info(goods.toString());
+    		commerceMapper.insertGoods(goods);
+    		List<GoodsDetail> gds = goods.getOptions();
+    		for (GoodsDetail gd : gds) {
+    			log.info(gd.toString());
+				gd.setGoods_id(goods.getId());
+				commerceMapper.insertGoodsDetail(gd);
 			}
-    		System.out.println("=========================================================");
 		}
-		
 	}
 
 }
