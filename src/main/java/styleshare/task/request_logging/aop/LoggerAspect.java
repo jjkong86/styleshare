@@ -22,7 +22,7 @@ import lombok.extern.slf4j.Slf4j;
 @Aspect
 @Slf4j
 public class LoggerAspect {
-	@Pointcut("execution(* tyleshare.task..*Controller.*(..))") // 이런 패턴이 실행될 경우 수행
+	@Pointcut("execution(* styleshare.task..*Controller.*(..))") // 이런 패턴이 실행될 경우 수행
 	public void loggerPointCut() {
 	}
 
