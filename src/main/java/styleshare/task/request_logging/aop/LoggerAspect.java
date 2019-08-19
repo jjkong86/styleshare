@@ -1,5 +1,6 @@
 package styleshare.task.request_logging.aop;
 
+import java.util.Arrays;
 import java.util.Date;
 import java.util.Enumeration;
 import java.util.HashMap;
@@ -7,7 +8,9 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
+import org.aspectj.lang.annotation.AfterReturning;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
@@ -54,6 +57,13 @@ public class LoggerAspect {
 		} catch (Throwable throwable) {
 			throw throwable;
 		}
+	}
+	
+	@AfterReturning(value = "execution(* styleshare.task..*Controller.*(..))", returning = "result")
+	public void onAfterReturningLogHandler(JoinPoint joinPoint, Object result) {
+		Object[] obj = joinPoint.getArgs();
+		System.out.println(Arrays.toString(obj));
+		
 	}
 
 	/**
