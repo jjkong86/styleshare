@@ -13,30 +13,30 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.web.context.WebApplicationContext;
 
 import styleshare.task.controller.CommerceController;
 import styleshare.task.request.PutGoodsToCartRequest;
 
 @RunWith(SpringRunner.class)
-// @WebMvcTest(CommerceController.class)
 @SpringBootTest(classes = Application.class)
-@EnableAutoConfiguration
+@WebAppConfiguration
 public class CommerceControllerTest {
 
-	@Autowired
-	CommerceController commerceController;
+    private MockMvc mockMvc;
 
-	private MockMvc mockMvc;
+    @Autowired
+    private WebApplicationContext ctx;
 
-	@Before
-	public void setUp() throws Exception {
-		mockMvc = MockMvcBuilders.standaloneSetup(commerceController).build();
-	}
+    @Before
+    public void setUp() {
+        this.mockMvc = MockMvcBuilders.webAppContextSetup(ctx).build();
+    }
 
 	@Test
-	@Ignore
 	public void 상품_리스트() throws Exception {
 		mockMvc.perform(get("/goods")).andExpect(status().isOk()).andDo(print());
 	}
