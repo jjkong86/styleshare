@@ -36,6 +36,17 @@ public class ApplicationTests {
 	@MockBean
 	private CommerceMapper commerceMapper;
 
+//	@Autowired
+//	private MockMvc mockMvc;
+	//
+	// @Autowired
+	// private WebApplicationContext ctx;
+	//
+	// @Before
+	// public void setUp() {
+	// this.mockMvc = MockMvcBuilders.webAppContextSetup(ctx).build();
+	// }
+
 	@Test
 	public void goodsInsertToJsonFile() throws FileNotFoundException {
 		Gson gson = new Gson();

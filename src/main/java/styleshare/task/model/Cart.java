@@ -19,7 +19,7 @@ import org.apache.ibatis.type.Alias;
 @Alias("CART")
 public class Cart {
 
-	@Min(value=1, message="id is bigger than 0.")
+//	@Min(value=1, message="cart id is bigger than 0.")
     private long id;
     private long goods_id;
     private long goods_detail_id;

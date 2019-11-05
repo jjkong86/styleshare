@@ -25,27 +25,4 @@ public class ConvertUtil {
 		}
 		return gson.fromJson(str, new TypeToken<T>() {}.getType());
 	}
-	
-	public static void main(String[] args) {
-		ObjectMapper oMapper = new ObjectMapper();
-		ApiCommonResponse res = new ApiCommonResponse();
-		res.setError("error");
-		
-		Map<String, Object> map = oMapper.convertValue(res, Map.class);
-        System.out.println(map);
-        
-        
-        Map<String, Object> gsonMap = fromJson(res, Map.class);
-        System.out.println(gsonMap);
-        System.out.println(fromJson(res, Map.class));
-        
-        Set<String> set = new HashSet<>();
-        SortedSet<Integer> sSet = new TreeSet<>();
-        sSet.add(1);
-        sSet.add(2);
-        sSet.add(3);
-        
-        
-        
-	}
 }

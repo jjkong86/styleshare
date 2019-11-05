@@ -63,7 +63,6 @@ public class CommerceController {
     public CartResponse cartCount(@Valid Cart cart, BindingResult r) {
     	if (r.hasErrors()) {
     		log.info(r.getFieldError().getDefaultMessage());
-    		log.info(r.getFieldError().getCode());
     	}
     	CartResponse result = commerceService.cartCount();
     	return result;
