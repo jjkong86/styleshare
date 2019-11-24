@@ -136,4 +136,8 @@
 		UPDATE GOODS_DETAIL SET STOCK=STOCK - #{amount} WHERE ID = #{goods_detail_id}
 	</update>
 	
+	<select id="getUserInfo" resultType="styleshare.task.model.User">
+		SELECT * FROM USER WHERE EMAIL = #{email}
+	</select>
+	
 </mapper>

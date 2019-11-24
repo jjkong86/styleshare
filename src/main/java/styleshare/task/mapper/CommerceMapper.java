@@ -7,6 +7,7 @@ import org.apache.ibatis.annotations.Mapper;
 import styleshare.task.model.CartList;
 import styleshare.task.model.Goods;
 import styleshare.task.model.GoodsDetail;
+import styleshare.task.model.User;
 import styleshare.task.request.PutGoodsToCartRequest;
 
 @Mapper
@@ -38,5 +39,7 @@ public interface CommerceMapper {
 	int stockUpdate(PutGoodsToCartRequest param);
 
 	int multiPayment(List<PutGoodsToCartRequest> param);
+	
+	User getUserInfo(User user);
 
 }

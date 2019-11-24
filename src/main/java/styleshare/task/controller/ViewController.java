@@ -1,11 +1,12 @@
 package styleshare.task.controller;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 
-import lombok.extern.slf4j.Slf4j;
+import styleshare.task.model.User;
 
-@Slf4j
 @Controller
 public class ViewController {
 
@@ -17,6 +18,11 @@ public class ViewController {
     @GetMapping("/cart")
     public String cart() {
         return "cart";
+    }
+    
+    @GetMapping("/login")
+    public String login(@ModelAttribute("User") User user, Model model) {
+        return "login";
     }
 
 }

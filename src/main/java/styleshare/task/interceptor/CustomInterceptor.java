@@ -1,4 +1,4 @@
-package styleshare.task.config;
+package styleshare.task.interceptor;
 
 import java.util.Enumeration;
 

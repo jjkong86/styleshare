@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="EUC-KR">
+<title>Insert title here</title>
+</head>
+<body>
+	<form action="#" th:action="@{/authenticate}" method="post"
+		th:object="${User}">
+		<div>
+			Email: <input type="email" th:field="*{email}" autofocus />
+		</div>
+		<div>
+			Password: <input type="password" th:field="*{password}" />
+		</div>
+		<div>
+			<input type="submit" value="Login" />
+		</div>
+	</form>
+</body>
+</html>
