@@ -4,6 +4,7 @@
   <title>Cart List</title>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+  <meta name="_csrf" th:content="${_csrf.token}"><meta name="_csrf_header" th:content="${_csrf.headerName}">
   <link rel="stylesheet" href="/css/bootstrap.min.css">
 </head>
 <style>
@@ -37,6 +38,10 @@
 <script type="text/javascript" src="/js/jquery-3.4.0.min.js"></script>
 
 <script>
+var token = $("meta[name='_csrf']").attr("content");
+var header = $("meta[name='_csrf_header']").attr("content");
+$(document).ajaxSend(function(e, xhr, options) { xhr.setRequestHeader(header, token); });
+
 	var goodsData = {};
 	var shippings={};
 	var SHIPPING_FREE = "FREE";

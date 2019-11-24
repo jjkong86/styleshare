@@ -24,5 +24,4 @@ public class ViewController {
     public String login(@ModelAttribute("User") User user, Model model) {
         return "login";
     }
-
 }

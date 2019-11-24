@@ -19,7 +19,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http.authorizeRequests()
                 .antMatchers("/css/**", "/js/**", "/img/**").permitAll()
                 .antMatchers("/").hasRole("USER") // 내부적으로 접두어 "ROLE_"가 붙는다.
-                .antMatchers("/cart").hasAnyRole("USER") // 내부적으로 접두어 "ROLE_"가 붙는다.
+                .antMatchers("/goods").hasAnyRole("USER")
+                .antMatchers("/get/**").hasAnyRole("USER")
+                .antMatchers("/put/**").hasAnyRole("USER")
                 .anyRequest().authenticated();
  
         http.formLogin()
@@ -27,14 +29,14 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .loginProcessingUrl("/authenticate")
 //                .failureUrl("/login?error") // default
                 .defaultSuccessUrl("/")
-//                .usernameParameter("email")
-//                .passwordParameter("password")
+                .usernameParameter("email")
+                .passwordParameter("password")
                 .permitAll();
  
-//        http.logout()
-//                .logoutUrl("/logout") // default
-//                .logoutSuccessUrl("/login")
-//                .permitAll();
+        http.logout()
+                .logoutUrl("/logout") // default
+                .logoutSuccessUrl("/login")
+                .permitAll();
     }
  
     @Override
