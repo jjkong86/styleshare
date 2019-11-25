@@ -140,4 +140,8 @@
 		SELECT * FROM USER WHERE EMAIL = #{email}
 	</select>
 	
+	<select id="getAuthorities" parameterType="styleshare.task.model.User" resultType="java.lang.String">
+		SELECT AUTHORITY FROM AUTHORITES WHERE STATUS = #{status}
+	</select>
+	
 </mapper>

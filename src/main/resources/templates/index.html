@@ -21,22 +21,23 @@
 </style>
 
 <body>
-<div class="container_top">
-	<div><span style="cursor: pointer;" id="putAllGoodsToCart">장바구니 담기 (<span id="cartCount"></span>)</span>
-		<div id="nextBtn" style="float: right; margin-right: 5%; cursor: pointer;">장바구니로 이동</div>
-		<div id="logout" style="float: right; margin-right: 5%; cursor: pointer;" onclick="$('#logoutForm').submit();">로그아웃</div>
+	<form action="#" th:action="@{/logout}" method="post">
+		<input type="submit" value="Logout" />
+	</form>
+	<div class="container_top">
+		<div><span style="cursor: pointer;" id="putAllGoodsToCart">장바구니 담기 (<span id="cartCount"></span>)</span>
+			<div id="nextBtn" style="float: right; margin-right: 5%; cursor: pointer;">장바구니로 이동</div>
+		</div>
+		<div>가격 : <span id="checked_price">0</span>( 배송비 : <span id="checked_shipping">0</span>)</div>
+		<div>전체선택 <input type="checkbox" id="all_checked"></div>
+		
 	</div>
-	<div>가격 : <span id="checked_price">0</span>( 배송비 : <span id="checked_shipping">0</span>)</div>
-	<div>전체선택 <input type="checkbox" id="all_checked"></div>
-	
-</div>
-<form action="/cart" id="inputForm">
-	<div class="container_middle">
-	</div>
-</form>
+	<form action="/cart" id="inputForm">
+		<div class="container_middle">
+		</div>
+	</form>
 
-<form action="/logout" id="logoutForm">
-</form>
+
 
 <script type="text/javascript" src="/js/jquery-3.4.0.min.js"></script>
 <script>

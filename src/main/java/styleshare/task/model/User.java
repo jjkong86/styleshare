@@ -8,6 +8,7 @@ import lombok.Data;
 @Builder
 @AllArgsConstructor
 public class User {
-	String email;
-	String password;
+	private String email;
+	private String password;
+	private String status;
 }

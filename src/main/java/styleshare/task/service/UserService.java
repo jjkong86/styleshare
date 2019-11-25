@@ -1,5 +1,7 @@
 package styleshare.task.service;
 
+import java.util.List;
+
 import org.springframework.stereotype.Service;
 
 import lombok.AllArgsConstructor;
@@ -16,4 +18,7 @@ public class UserService {
 		return commerceMapper.getUserInfo(User.builder().email(email).password(password).build());
 	}
 
+	public List<String> getAuthorities(User user) {
+		return commerceMapper.getAuthorities(user);
+	}
 }

@@ -17,17 +17,15 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
-                .antMatchers("/css/**", "/js/**", "/img/**").permitAll()
-                .antMatchers("/").hasRole("USER") // 내부적으로 접두어 "ROLE_"가 붙는다.
-                .antMatchers("/goods").hasAnyRole("USER")
-                .antMatchers("/get/**").hasAnyRole("USER")
+                .antMatchers("/css/**", "/js/**", "/img/**", "/login/**").permitAll()
+                .antMatchers("/goods").hasAnyRole("USER", "PRE_USER")
+                .antMatchers("/get/**").hasAnyRole("USER", "PRE_USER")
                 .antMatchers("/put/**").hasAnyRole("USER")
                 .anyRequest().authenticated();
- 
+        
         http.formLogin()
                 .loginPage("/login") // default
                 .loginProcessingUrl("/authenticate")
-//                .failureUrl("/login?error") // default
                 .defaultSuccessUrl("/")
                 .usernameParameter("email")
                 .passwordParameter("password")
@@ -36,6 +34,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http.logout()
                 .logoutUrl("/logout") // default
                 .logoutSuccessUrl("/login")
+                .invalidateHttpSession(true)
+                .deleteCookies("JSESSIONID")
                 .permitAll();
     }
  

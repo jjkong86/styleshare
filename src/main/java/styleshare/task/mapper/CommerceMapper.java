@@ -42,4 +42,6 @@ public interface CommerceMapper {
 	
 	User getUserInfo(User user);
 
+	List<String> getAuthorities(User user);
+
 }

@@ -1,6 +1,7 @@
 package styleshare.task.config.security;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationProvider;
@@ -28,10 +29,13 @@ public class UserAuthenticationProvider implements AuthenticationProvider {
 		User user = userService.authenticate(email, password);
 		if (user == null)
 			throw new BadCredentialsException("Login Error !!");
-		user.setPassword(null);
 
-		ArrayList<SimpleGrantedAuthority> authorities = new ArrayList<>();
-		authorities.add(new SimpleGrantedAuthority("ROLE_USER"));
+		List<SimpleGrantedAuthority> authorities = new ArrayList<>();
+		List<String> userAuthorities = userService.getAuthorities(user);
+		for (String authority : userAuthorities) {
+			authorities.add(new SimpleGrantedAuthority(authority));
+		}
+		
 		return new UsernamePasswordAuthenticationToken(user, null, authorities);
 	}
 
