@@ -36,7 +36,7 @@ public class UserAuthenticationProvider implements AuthenticationProvider {
 			authorities.add(new SimpleGrantedAuthority(authority));
 		}
 		
-		return new UsernamePasswordAuthenticationToken(user, null, authorities);
+		return new UsernamePasswordAuthenticationToken(user, password, authorities);
 	}
 
 	@Override

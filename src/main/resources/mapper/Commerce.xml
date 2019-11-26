@@ -141,7 +141,7 @@
 	</select>
 	
 	<select id="getAuthorities" parameterType="styleshare.task.model.User" resultType="java.lang.String">
-		SELECT AUTHORITY FROM AUTHORITES WHERE STATUS = #{status}
+		SELECT roleName FROM ROLE WHERE roleId = (SELECT roleId FROM AUTHORITES WHERE userId = #{userId})
 	</select>
 	
 </mapper>

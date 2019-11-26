@@ -17,11 +17,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
-                .antMatchers("/css/**", "/js/**", "/img/**", "/login/**").permitAll()
-                .antMatchers("/goods").hasAnyRole("USER", "PRE_USER")
+                .antMatchers("/css/**", "/js/**", "/img/**", "/login").permitAll()
+                .antMatchers("/index").hasAnyRole("USER", "PRE_USER")
                 .antMatchers("/get/**").hasAnyRole("USER", "PRE_USER")
                 .antMatchers("/put/**").hasAnyRole("USER")
-                .anyRequest().authenticated();
+                .anyRequest().permitAll();
         
         http.formLogin()
                 .loginPage("/login") // default

@@ -32,7 +32,7 @@
 		<div>전체선택 <input type="checkbox" id="all_checked"></div>
 		
 	</div>
-	<form action="/cart" id="inputForm">
+	<form action="/get/cart" id="inputForm">
 		<div class="container_middle">
 		</div>
 	</form>
@@ -58,7 +58,7 @@ $(document).ajaxSend(function(e, xhr, options) { xhr.setRequestHeader(header, to
     
     function goodsList() {
 		$.ajax({
-	        url : 'goods',
+	        url : 'get/goods',
 	        type: "POST",
 	        dataType : "json",
 	        async:false,

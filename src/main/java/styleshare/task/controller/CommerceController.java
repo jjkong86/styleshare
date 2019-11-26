@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.google.gson.Gson;
 
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import styleshare.task.model.Cart;
 import styleshare.task.model.CartList;
@@ -27,20 +28,17 @@ import styleshare.task.service.CommerceService;
 
 @Slf4j
 @RestController
+@AllArgsConstructor
 public class CommerceController {
 
     private final CommerceService commerceService;
 
-    public CommerceController(CommerceService commerceService) {
-        this.commerceService = commerceService;
-    }
-    
-    @RequestMapping("/goods")
+    @RequestMapping("/get/goods")
     public GoodsListRespose goodsAll() throws FileNotFoundException {
     	return commerceService.goodsAll();
     }
     
-    @RequestMapping("/cart")
+    @RequestMapping("/get/cart")
     public List<CartList> cartAll() {
     	return commerceService.cartAll();
     }
