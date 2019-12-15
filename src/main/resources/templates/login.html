@@ -1,22 +1,22 @@
-<!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
-<head>
-  <title>login</title>
-  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
-  <link rel="stylesheet" href="/css/bootstrap.min.css">
-</head>
-<body>
-	<form action="#" th:action="@{/authenticate}" method="post" th:object="${User}">
-		<div>
-			Email: <input type="email" th:field="*{email}" autofocus />
-		</div>
-		<div>
-			Password: <input type="password" th:field="*{password}" />
-		</div>
-		<div>
-			<input type="submit" value="Login" />
-		</div>
-	</form>
-</body>
-</html>
+<!-- <!DOCTYPE html> -->
+<!-- <html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security"> -->
+<!-- <head> -->
+<!--   <title>login</title> -->
+<!--   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/> -->
+<!--   <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no"> -->
+<!--   <link rel="stylesheet" href="/css/bootstrap.min.css"> -->
+<!-- </head> -->
+<!-- <body> -->
+<!-- 	<form action="#" th:action="@{/authenticate}" method="post" th:object="${User}"> -->
+<!-- 		<div> -->
+<!-- 			Email: <input type="email" th:field="*{email}" autofocus /> -->
+<!-- 		</div> -->
+<!-- 		<div> -->
+<!-- 			Password: <input type="password" th:field="*{password}" /> -->
+<!-- 		</div> -->
+<!-- 		<div> -->
+<!-- 			<input type="submit" value="Login" /> -->
+<!-- 		</div> -->
+<!-- 	</form> -->
+<!-- </body> -->
+<!-- </html> -->

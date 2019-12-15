@@ -4,7 +4,7 @@
   <title>Goods List</title>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
-  <meta name="_csrf" th:content="${_csrf.token}"><meta name="_csrf_header" th:content="${_csrf.headerName}">
+<!--   <meta name="_csrf" th:content="${_csrf.token}"><meta name="_csrf_header" th:content="${_csrf.headerName}"> -->
   <link rel="stylesheet" href="/css/bootstrap.min.css">
 </head>
 <style>
@@ -21,9 +21,9 @@
 </style>
 
 <body>
-	<form action="#" th:action="@{/logout}" method="post">
-		<input type="submit" value="Logout" />
-	</form>
+<!-- 	<form action="#" th:action="@{/logout}" method="post"> -->
+<!-- 		<input type="submit" value="Logout" /> -->
+<!-- 	</form> -->
 	<div class="container_top">
 		<div><span style="cursor: pointer;" id="putAllGoodsToCart">장바구니 담기 (<span id="cartCount"></span>)</span>
 			<div id="nextBtn" style="float: right; margin-right: 5%; cursor: pointer;">장바구니로 이동</div>
@@ -32,7 +32,7 @@
 		<div>전체선택 <input type="checkbox" id="all_checked"></div>
 		
 	</div>
-	<form action="/get/cart" id="inputForm">
+	<form action="/cart" id="inputForm">
 		<div class="container_middle">
 		</div>
 	</form>
@@ -41,9 +41,9 @@
 
 <script type="text/javascript" src="/js/jquery-3.4.0.min.js"></script>
 <script>
-var token = $("meta[name='_csrf']").attr("content");
-var header = $("meta[name='_csrf_header']").attr("content");
-$(document).ajaxSend(function(e, xhr, options) { xhr.setRequestHeader(header, token); });
+// var token = $("meta[name='_csrf']").attr("content");
+// var header = $("meta[name='_csrf_header']").attr("content");
+// $(document).ajaxSend(function(e, xhr, options) { xhr.setRequestHeader(header, token); });
 
 	var goodsData = {};
 	var shippings={};
@@ -58,8 +58,8 @@ $(document).ajaxSend(function(e, xhr, options) { xhr.setRequestHeader(header, to
     
     function goodsList() {
 		$.ajax({
-	        url : 'get/goods',
-	        type: "POST",
+	        url : 'goods',
+	        type: "GET",
 	        dataType : "json",
 	        async:false,
 	        success : function(data){
@@ -121,8 +121,8 @@ $(document).ajaxSend(function(e, xhr, options) { xhr.setRequestHeader(header, to
     function cartCount() {
     	var count = 0;
     	$.ajax({
-            url : 'get/cartCount',
-            type: "POST",
+            url : 'carts/count',
+            type: "GET",
             dataType : "json",
             async:false,
             success : function(data){
@@ -239,7 +239,7 @@ $(document).ajaxSend(function(e, xhr, options) { xhr.setRequestHeader(header, to
 			}
 			
 			$.ajax({
-		       url : 'put/cart/'+goodsId,
+		       url : 'carts/'+goodsId,
 		       type: "POST",
 		       contentType: 'application/json',
 		       async:false,
@@ -270,7 +270,7 @@ $(document).ajaxSend(function(e, xhr, options) { xhr.setRequestHeader(header, to
 			});
 			if (!flag) return false;
 			$.ajax({
-		       url : 'put/cart',
+		       url : 'carts/all',
 		       type: "POST",
 		       contentType: 'application/json',
 		       dataType : "json",

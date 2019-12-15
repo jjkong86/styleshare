@@ -10,6 +10,8 @@ import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.StringJoiner;
 
+import javax.transaction.Transactional;
+
 import org.springframework.stereotype.Service;
 
 import com.google.gson.Gson;
@@ -88,6 +90,7 @@ public class CommerceService {
 		return goods;
 	}
 
+	@Transactional
 	public ApiCommonResponse putAllGoodsToCart(List<PutGoodsToCartRequest> param) {
 		ApiCommonResponse res = new ApiCommonResponse();
 		List<Goods> goods = commerceMapper.goodsListToCartExisit(param);

@@ -10,7 +10,7 @@ import styleshare.task.model.User;
 @Controller
 public class ViewController {
 
-    @GetMapping("/index")
+    @GetMapping("/")
     public String index() {
         return "index";
     }

@@ -33,31 +33,30 @@ public class CommerceController {
 
     private final CommerceService commerceService;
 
-    @RequestMapping("/get/goods")
+    @RequestMapping(value = "/goods", method = RequestMethod.GET)
     public GoodsListRespose goodsAll() throws FileNotFoundException {
     	return commerceService.goodsAll();
     }
     
-    @RequestMapping("/get/cart")
+    @RequestMapping(value = "/carts", method = RequestMethod.GET)
     public List<CartList> cartAll() {
     	return commerceService.cartAll();
     }
     
-    @Transactional
-    @RequestMapping(value = "/put/cart", method = RequestMethod.POST)
+    @RequestMapping(value = "/carts/all", method = RequestMethod.POST)
     public ApiCommonResponse putAllGoodsToCart(@RequestBody List<PutGoodsToCartRequest> param) {
     	ApiCommonResponse result = commerceService.putAllGoodsToCart(param);
     	return result;
     }
     
     @Transactional
-    @RequestMapping(value = "/put/cart/{goodsId}", method = RequestMethod.POST)
+    @RequestMapping(value = "/carts/{goodsId}", method = RequestMethod.POST)
     public ApiCommonResponse putGoodsToCart(@PathVariable("goodsId") int goodsId, @RequestBody PutGoodsToCartRequest param) {
     	ApiCommonResponse result = commerceService.putGoodsToCart(goodsId, param);
     	return result;
     }
     
-    @RequestMapping(value = "/get/cartCount")
+    @RequestMapping(value = "/carts/count", method = RequestMethod.GET)
     public CartResponse cartCount(@Valid Cart cart, BindingResult r) {
     	if (r.hasErrors()) {
     		log.info(r.getFieldError().getDefaultMessage());
@@ -67,14 +66,14 @@ public class CommerceController {
     }
     
     @Transactional
-    @RequestMapping(value = "/put/payment", method = RequestMethod.POST)
+    @RequestMapping(value = "/payments", method = RequestMethod.POST)
     public ApiCommonResponse multiPayment(@RequestBody List<PutGoodsToCartRequest> param) {
     	ApiCommonResponse result = commerceService.multiPayment(param);
     	return result;
     }
     
     @Transactional
-    @RequestMapping(value = "/put/payment/{cartId}", method = RequestMethod.POST)
+    @RequestMapping(value = "/payments/{cartId}", method = RequestMethod.POST)
     public ApiCommonResponse singlePayment(@PathVariable("cartId") int cartId, @RequestBody PutGoodsToCartRequest param) {
     	List<PutGoodsToCartRequest> list = new ArrayList<>();
     	list.add(param);
@@ -83,7 +82,7 @@ public class CommerceController {
     }
     
     @Transactional
-    @RequestMapping(value = "/delete/cart", method = RequestMethod.POST)
+    @RequestMapping(value = "/delete/cart", method = RequestMethod.DELETE)
     public ApiCommonResponse deleteToCart(@RequestBody List<PutGoodsToCartRequest> param) {
     	ApiCommonResponse result = commerceService.deleteToCart(param);
     	return result;
@@ -95,6 +94,6 @@ public class CommerceController {
     	List<PutGoodsToCartRequest> list = new ArrayList<>();
     	list.add(param);
     	ApiCommonResponse result = commerceService.deleteToCart(list);
-    	return result;
-    }
+		return result;
+	}
 }

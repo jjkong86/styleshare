@@ -4,7 +4,7 @@
   <title>Cart List</title>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
-  <meta name="_csrf" th:content="${_csrf.token}"><meta name="_csrf_header" th:content="${_csrf.headerName}">
+<!--   <meta name="_csrf" th:content="${_csrf.token}"><meta name="_csrf_header" th:content="${_csrf.headerName}"> -->
   <link rel="stylesheet" href="/css/bootstrap.min.css">
 </head>
 <style>
@@ -38,9 +38,9 @@
 <script type="text/javascript" src="/js/jquery-3.4.0.min.js"></script>
 
 <script>
-var token = $("meta[name='_csrf']").attr("content");
-var header = $("meta[name='_csrf_header']").attr("content");
-$(document).ajaxSend(function(e, xhr, options) { xhr.setRequestHeader(header, token); });
+// var token = $("meta[name='_csrf']").attr("content");
+// var header = $("meta[name='_csrf_header']").attr("content");
+// $(document).ajaxSend(function(e, xhr, options) { xhr.setRequestHeader(header, token); });
 
 	var goodsData = {};
 	var shippings={};
@@ -58,8 +58,8 @@ $(document).ajaxSend(function(e, xhr, options) { xhr.setRequestHeader(header, to
     	var count = cartCount();
     	if (count < 1) return false;
 		$.ajax({
-	        url : 'cart',
-	        type: "POST",
+	        url : 'carts',
+	        type: "GET",
 	        dataType : "json",
 	        async:false,
 	        success : function(data){
@@ -111,7 +111,7 @@ $(document).ajaxSend(function(e, xhr, options) { xhr.setRequestHeader(header, to
     function cartCount() {
     	var count = 0;
     	$.ajax({
-            url : 'get/cartCount',
+            url : 'carts/count',
             type: "POST",
             dataType : "json",
             async:false,
@@ -178,9 +178,11 @@ $(document).ajaxSend(function(e, xhr, options) { xhr.setRequestHeader(header, to
          
 		 //단일 상품 결제, 삭제
 		 $('.singlePayment, .deleteGoods').click(function () {
+			const urlAndType = [];
+			
 			var url = "";
 			var $thisClass = $(this).attr('class');
-				url = $thisClass.indexOf("delete") >= 0 ? 'delete/cart/' : 'put/payment/';
+				url = $thisClass.indexOf("delete") >= 0 ? 'carts/' : 'payments/';
 			var cartId = $(this).attr('id');
 			var idData = goodsData[cartId];
 			
@@ -216,7 +218,7 @@ $(document).ajaxSend(function(e, xhr, options) { xhr.setRequestHeader(header, to
 			
 			var url = "";
 			var $thisClass = $(this).attr('id');
-				url = $thisClass.indexOf("Delete") >= 0 ? 'delete/cart' : 'put/payment';
+				url = $thisClass.indexOf("Delete") >= 0 ? 'delete/cart' : 'payments';
 			
 			$.ajax({
 		       url : url,
