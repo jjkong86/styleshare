@@ -43,7 +43,7 @@ public class CommerceController {
     	return commerceService.cartAll();
     }
     
-    @RequestMapping(value = "/carts/all", method = RequestMethod.POST)
+    @RequestMapping(value = "/carts", method = RequestMethod.POST)
     public ApiCommonResponse putAllGoodsToCart(@RequestBody List<PutGoodsToCartRequest> param) {
     	ApiCommonResponse result = commerceService.putAllGoodsToCart(param);
     	return result;
@@ -66,14 +66,14 @@ public class CommerceController {
     }
     
     @Transactional
-    @RequestMapping(value = "/payments", method = RequestMethod.POST)
+    @RequestMapping(value = "/payments", method = RequestMethod.PUT)
     public ApiCommonResponse multiPayment(@RequestBody List<PutGoodsToCartRequest> param) {
     	ApiCommonResponse result = commerceService.multiPayment(param);
     	return result;
     }
     
     @Transactional
-    @RequestMapping(value = "/payments/{cartId}", method = RequestMethod.POST)
+    @RequestMapping(value = "/payments/{cartId}", method = RequestMethod.PUT)
     public ApiCommonResponse singlePayment(@PathVariable("cartId") int cartId, @RequestBody PutGoodsToCartRequest param) {
     	List<PutGoodsToCartRequest> list = new ArrayList<>();
     	list.add(param);
@@ -82,14 +82,14 @@ public class CommerceController {
     }
     
     @Transactional
-    @RequestMapping(value = "/delete/cart", method = RequestMethod.DELETE)
+    @RequestMapping(value = "/carts", method = RequestMethod.DELETE)
     public ApiCommonResponse deleteToCart(@RequestBody List<PutGoodsToCartRequest> param) {
     	ApiCommonResponse result = commerceService.deleteToCart(param);
     	return result;
     }
     
     @Transactional
-    @RequestMapping(value = "/delete/cart/{cartId}", method = RequestMethod.POST)
+    @RequestMapping(value = "/carts/{cartId}", method = RequestMethod.DELETE)
     public ApiCommonResponse singleDeleteToCart(@PathVariable("cartId") int cartId, @RequestBody PutGoodsToCartRequest param) {
     	List<PutGoodsToCartRequest> list = new ArrayList<>();
     	list.add(param);

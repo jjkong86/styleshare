@@ -112,7 +112,7 @@
     	var count = 0;
     	$.ajax({
             url : 'carts/count',
-            type: "POST",
+            type: "GET",
             dataType : "json",
             async:false,
             success : function(data){
@@ -178,17 +178,21 @@
          
 		 //단일 상품 결제, 삭제
 		 $('.singlePayment, .deleteGoods').click(function () {
-			const urlAndType = [];
+				const urlAndType = {url : "", type : ""};
+				if ($(this).attr('class').indexOf("delete") >= 0) {
+					urlAndType.url = 'carts/';
+					urlAndType.type = 'DELETE';
+				} else {
+					urlAndType.url = 'payments/';
+					urlAndType.type = 'PUT';
+				}
 			
-			var url = "";
-			var $thisClass = $(this).attr('class');
-				url = $thisClass.indexOf("delete") >= 0 ? 'carts/' : 'payments/';
 			var cartId = $(this).attr('id');
 			var idData = goodsData[cartId];
 			
 			$.ajax({
-		       url : url+cartId,
-		       type: "POST",
+		       url : urlAndType.url+cartId,
+		       type: urlAndType.type,
 		       contentType: 'application/json',
 		       async:false,
 		       dataType : "json",
@@ -216,13 +220,18 @@
 			});
 			if (!flag) return false;
 			
-			var url = "";
-			var $thisClass = $(this).attr('id');
-				url = $thisClass.indexOf("Delete") >= 0 ? 'delete/cart' : 'payments';
+			const urlAndType = {url : "", type : ""};
+			if ($(this).attr('id').indexOf("delete") >= 0) {
+				urlAndType.url = 'carts';
+				urlAndType.type = 'DELETE';
+			} else {
+				urlAndType.url = 'payments';
+				urlAndType.type = 'PUT';
+			}
 			
 			$.ajax({
-		       url : url,
-		       type: "POST",
+		       url : urlAndType.url,
+		       type: urlAndType.type,
 		       contentType: 'application/json',
 		       dataType : "json",
 		       async:false,
