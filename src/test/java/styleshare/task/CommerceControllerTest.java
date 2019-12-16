@@ -12,18 +12,21 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
 import styleshare.task.controller.CommerceController;
 import styleshare.task.request.PutGoodsToCartRequest;
+import styleshare.task.response.GoodsListRespose;
 
-@RunWith(SpringRunner.class)
-@SpringBootTest(classes = Application.class)
-@WebAppConfiguration
+@RunWith(SpringJUnit4ClassRunner.class)
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+//@WebAppConfiguration
 public class CommerceControllerTest {
 
     private MockMvc mockMvc;
@@ -32,7 +35,7 @@ public class CommerceControllerTest {
     private WebApplicationContext ctx;
 
     @Before
-    public void setUp() {
+    public void setUp() throws Exception {
         this.mockMvc = MockMvcBuilders.webAppContextSetup(ctx).build();
     }
 

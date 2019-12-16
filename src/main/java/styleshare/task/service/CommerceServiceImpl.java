@@ -75,6 +75,7 @@ public class CommerceServiceImpl implements CommerceService {
     	JsonReader reader = new JsonReader(new FileReader(JSON_FILE_PATH));
     	GoodsListRespose data = gson.fromJson(reader, GoodsListRespose.class);
     	List<Goods> list = data.getGoods();
+    	log.info(list.toString());
     	for (Goods goods : list) {
     		commerceMapper.insertGoods(goods);
     		List<GoodsDetail> gds = goods.getOptions();

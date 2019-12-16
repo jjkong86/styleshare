@@ -30,7 +30,7 @@ import styleshare.task.service.CommerceServiceImpl;
 @AllArgsConstructor
 public class CommerceController {
 
-    private final CommerceServiceImpl commerceService;
+    private CommerceServiceImpl commerceService;
 
     @RequestMapping(value = "/goods", method = RequestMethod.GET)
     public GoodsListRespose goodsAll() throws FileNotFoundException {
