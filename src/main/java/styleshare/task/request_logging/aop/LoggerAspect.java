@@ -4,6 +4,8 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.Enumeration;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.LinkedList;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -18,6 +20,9 @@ import org.json.simple.JSONObject;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
+
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -38,19 +43,19 @@ public class LoggerAspect {
 			String controllerName = proceedingJoinPoint.getSignature().getDeclaringType().getSimpleName();
 			String methodName = proceedingJoinPoint.getSignature().getName();
 
-			Map<String, Object> params = new HashMap<>();
+			Map<String, Object> params = new LinkedHashMap<>();
 
 			try {
+				params.put("request_uri", request.getRequestURI());
+				params.put("http_method", request.getMethod());
 				params.put("controller", controllerName);
 				params.put("method", methodName);
 				params.put("params", getParams(request));
 				params.put("log_time", new Date());
-				params.put("request_uri", request.getRequestURI());
-				params.put("http_method", request.getMethod());
 			} catch (Exception e) {
 				log.error("LoggerAspect error", e);
 			}
-			log.info("params : {}", params); // param에 담긴 정보들을 한번에 로깅한다.
+			log.info("params : {}", new GsonBuilder().setPrettyPrinting().create().toJson(params)); // param에 담긴 정보들을 한번에 로깅한다.
 
 			return result;
 
@@ -62,8 +67,7 @@ public class LoggerAspect {
 	@AfterReturning(value = "execution(* styleshare.task..*Controller.*(..))", returning = "result")
 	public void onAfterReturningLogHandler(JoinPoint joinPoint, Object result) {
 		Object[] obj = joinPoint.getArgs();
-		System.out.println(Arrays.toString(obj));
-		
+		log.info("reslut : {}", Arrays.toString(obj) + "\n");
 	}
 
 	/**

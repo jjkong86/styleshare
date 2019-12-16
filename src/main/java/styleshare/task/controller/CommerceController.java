@@ -14,8 +14,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.google.gson.Gson;
-
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import styleshare.task.model.Cart;
@@ -25,13 +23,14 @@ import styleshare.task.response.ApiCommonResponse;
 import styleshare.task.response.CartResponse;
 import styleshare.task.response.GoodsListRespose;
 import styleshare.task.service.CommerceService;
+import styleshare.task.service.CommerceServiceImpl;
 
 @Slf4j
 @RestController
 @AllArgsConstructor
 public class CommerceController {
 
-    private final CommerceService commerceService;
+    private final CommerceServiceImpl commerceService;
 
     @RequestMapping(value = "/goods", method = RequestMethod.GET)
     public GoodsListRespose goodsAll() throws FileNotFoundException {
@@ -49,14 +48,12 @@ public class CommerceController {
     	return result;
     }
     
-    @Transactional
     @RequestMapping(value = "/carts", method = RequestMethod.DELETE)
     public ApiCommonResponse deleteToCart(@RequestBody List<PutGoodsToCartRequest> param) {
     	ApiCommonResponse result = commerceService.deleteToCart(param);
     	return result;
     }
     
-    @Transactional
     @RequestMapping(value = "/carts/{goodsId}", method = RequestMethod.POST)
     public ApiCommonResponse putGoodsToCart(@PathVariable("goodsId") int goodsId, @RequestBody PutGoodsToCartRequest param) {
     	ApiCommonResponse result = commerceService.putGoodsToCart(goodsId, param);
@@ -72,7 +69,6 @@ public class CommerceController {
     	return result;
     }
     
-    @Transactional
     @RequestMapping(value = "/payments", method = RequestMethod.PUT)
     public ApiCommonResponse multiPayment(@RequestBody List<PutGoodsToCartRequest> param) {
     	ApiCommonResponse result = commerceService.multiPayment(param);
