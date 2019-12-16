@@ -50,6 +50,13 @@ public class CommerceController {
     }
     
     @Transactional
+    @RequestMapping(value = "/carts", method = RequestMethod.DELETE)
+    public ApiCommonResponse deleteToCart(@RequestBody List<PutGoodsToCartRequest> param) {
+    	ApiCommonResponse result = commerceService.deleteToCart(param);
+    	return result;
+    }
+    
+    @Transactional
     @RequestMapping(value = "/carts/{goodsId}", method = RequestMethod.POST)
     public ApiCommonResponse putGoodsToCart(@PathVariable("goodsId") int goodsId, @RequestBody PutGoodsToCartRequest param) {
     	ApiCommonResponse result = commerceService.putGoodsToCart(goodsId, param);
@@ -72,7 +79,6 @@ public class CommerceController {
     	return result;
     }
     
-    @Transactional
     @RequestMapping(value = "/payments/{cartId}", method = RequestMethod.PUT)
     public ApiCommonResponse singlePayment(@PathVariable("cartId") int cartId, @RequestBody PutGoodsToCartRequest param) {
     	List<PutGoodsToCartRequest> list = new ArrayList<>();
@@ -81,14 +87,6 @@ public class CommerceController {
     	return result;
     }
     
-    @Transactional
-    @RequestMapping(value = "/carts", method = RequestMethod.DELETE)
-    public ApiCommonResponse deleteToCart(@RequestBody List<PutGoodsToCartRequest> param) {
-    	ApiCommonResponse result = commerceService.deleteToCart(param);
-    	return result;
-    }
-    
-    @Transactional
     @RequestMapping(value = "/carts/{cartId}", method = RequestMethod.DELETE)
     public ApiCommonResponse singleDeleteToCart(@PathVariable("cartId") int cartId, @RequestBody PutGoodsToCartRequest param) {
     	List<PutGoodsToCartRequest> list = new ArrayList<>();

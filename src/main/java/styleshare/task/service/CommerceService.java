@@ -146,6 +146,7 @@ public class CommerceService {
 		return result;
 	}
 	
+	@Transactional
 	public ApiCommonResponse multiPayment(List<PutGoodsToCartRequest> param) {
 		ApiCommonResponse result = new ApiCommonResponse();
 		StringJoiner sj = new StringJoiner(", ");
@@ -168,6 +169,7 @@ public class CommerceService {
 		return result;
 	}
 	
+	@Transactional
 	public ApiCommonResponse deleteToCart(List<PutGoodsToCartRequest> param) {
 		ApiCommonResponse result = new ApiCommonResponse();
 		int delete = commerceMapper.multiPayment(param);
