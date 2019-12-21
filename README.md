@@ -1,11 +1,7 @@
 # 장바구니 구현하기
 
 ## 빌드 & 실행
-* gradle 빌드 자동화 시스템으로 과제 수행  
-    * $ brew update
-    * $ brew install gradle
-    * gradle build
-    * gradle bootRun
+* gradle 빌드 자동화 시스템으로 수행  
 * Springboot + mybatis + h2
 * 언어는 JAVA로 구현
 * 서버는 REST API로 구현(REST API 스팩으로 구현)
