@@ -45,7 +45,7 @@ public class CommerceServiceImpl implements CommerceService {
 		
     	if (goods.size() < 1) { //중복 insert 방지
     		log.info(" ===== goods is empty. insert into db from \"goods.json\" ===== ");
-    		return goodsInsertToJsonFile();
+    		goodsInsertToJsonFile();
     	}
     	
     	List<GoodsDetail> goodsDetail = commerceMapper.goodsDetailAll();
