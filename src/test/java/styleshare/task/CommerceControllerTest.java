@@ -17,8 +17,12 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+import lombok.extern.slf4j.Slf4j;
 import styleshare.task.request.PutGoodsToCartRequest;
 
+@Slf4j
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @AutoConfigureMockMvc
@@ -36,16 +40,21 @@ public class CommerceControllerTest {
 
 	@Test
 	public void 상품_리스트() throws Exception {
-		mockMvc.perform(get("/goods").contentType(MediaType.APPLICATION_JSON_VALUE))
-				.andDo(print())
+		mockMvc.perform(get("/goods").contentType(MediaType.APPLICATION_JSON_VALUE)).andDo(print())
 				.andExpect(status().isOk());
 	}
 
 	@Test
 	public void 상품_카트에_담기() throws Exception {
-//		params={"amount":"3","name":"JAVA Round T-Shirts","goods_id":"2","goods_detail_id":"2001"}
 		PutGoodsToCartRequest param = PutGoodsToCartRequest.builder().amount(3).name("JAVA Round T-Shirts").goods_id(2)
 				.goods_detail_id(2001).build();
-		mockMvc.perform(post("/put/cart/2")).andExpect(status().isOk()).andDo(print());
+		
+		mockMvc.perform(post("/carts/{goodsId}", 2)
+				.contentType(MediaType.APPLICATION_JSON_VALUE)
+				.content(new ObjectMapper().writeValueAsString(param)))
+		.andExpect(status().isOk()).andDo(print());
+		
+		mockMvc.perform(get("/carts/{goodsId}", 2).contentType(MediaType.APPLICATION_JSON_VALUE)).andDo(print())
+		.andExpect(status().isOk());
 	}
 }

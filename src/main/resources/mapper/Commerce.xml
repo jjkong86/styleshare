@@ -144,4 +144,8 @@
 		SELECT roleName FROM ROLE WHERE roleId = (SELECT roleId FROM AUTHORITES WHERE userId = #{userId})
 	</select>
 	
+	<select id="getCartToId" resultType="styleshare.task.model.Cart">
+		SELECT * FROM CART WHERE GOODS_ID = #{cartId}
+	</select>
+	
 </mapper>

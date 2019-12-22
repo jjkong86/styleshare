@@ -6,17 +6,12 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.util.List;
 
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mybatis.spring.annotation.MapperScan;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit4.SpringRunner;
-import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import org.springframework.web.context.WebApplicationContext;
 
 import com.google.gson.Gson;
 import com.google.gson.stream.JsonReader;
@@ -35,17 +30,6 @@ public class ApplicationTests {
 
 	@MockBean
 	private CommerceMapper commerceMapper;
-
-//	@Autowired
-//	private MockMvc mockMvc;
-	//
-	// @Autowired
-	// private WebApplicationContext ctx;
-	//
-	// @Before
-	// public void setUp() {
-	// this.mockMvc = MockMvcBuilders.webAppContextSetup(ctx).build();
-	// }
 
 	@Test
 	public void goodsInsertToJsonFile() throws FileNotFoundException {

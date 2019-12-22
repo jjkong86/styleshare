@@ -90,4 +90,9 @@ public class CommerceController {
     	ApiCommonResponse result = commerceService.deleteToCart(list);
 		return result;
 	}
+    
+    @RequestMapping(value = "/carts/{cartId}", method = RequestMethod.GET)
+    public Cart getCartToId(@PathVariable("cartId") int cartId) {
+    	return commerceService.getCartToId(cartId);
+    }
 }

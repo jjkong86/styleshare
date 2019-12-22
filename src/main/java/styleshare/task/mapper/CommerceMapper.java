@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
 
+import styleshare.task.model.Cart;
 import styleshare.task.model.CartList;
 import styleshare.task.model.Goods;
 import styleshare.task.model.GoodsDetail;
@@ -43,5 +44,7 @@ public interface CommerceMapper {
 	User getUserInfo(User user);
 
 	List<String> getAuthorities(User user);
+
+	Cart getCartToId(int cartId);
 
 }

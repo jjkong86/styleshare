@@ -21,6 +21,7 @@ import lombok.extern.slf4j.Slf4j;
 import styleshare.task.common.CommonUtil;
 import styleshare.task.exception.ValidCustomException;
 import styleshare.task.mapper.CommerceMapper;
+import styleshare.task.model.Cart;
 import styleshare.task.model.CartList;
 import styleshare.task.model.Goods;
 import styleshare.task.model.GoodsDetail;
@@ -172,6 +173,12 @@ public class CommerceServiceImpl implements CommerceService {
 		
 		result.setError(CommonUtil.makeString(new PutGoodsToCartRequest(), param) + " is delete.");
 		log.info(result.getError());
+		return result;
+	}
+
+	public Cart getCartToId(int cartId) {
+		Cart result = commerceMapper.getCartToId(cartId);
+		log.info(result.toString());
 		return result;
 	}
 }
