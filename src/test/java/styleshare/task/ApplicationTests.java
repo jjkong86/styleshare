@@ -17,13 +17,11 @@ import org.springframework.test.context.junit4.SpringRunner;
 import com.google.gson.Gson;
 import com.google.gson.stream.JsonReader;
 
-import lombok.extern.slf4j.Slf4j;
 import styleshare.task.mapper.CommerceMapper;
 import styleshare.task.model.Goods;
 import styleshare.task.model.GoodsDetail;
 import styleshare.task.response.GoodsListRespose;
 
-@Slf4j
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = Application.class)
 @MapperScan(basePackages = "styleshare.task.mapper")
@@ -39,11 +37,11 @@ public class ApplicationTests {
 		GoodsListRespose data = gson.fromJson(reader, GoodsListRespose.class);
 		List<Goods> list = data.getGoods();
 		for (Goods goods : list) {
-			log.info(goods.toString());
+//			log.info(goods.toString());
 			commerceMapper.insertGoods(goods);
 			List<GoodsDetail> gds = goods.getOptions();
 			for (GoodsDetail gd : gds) {
-				log.info(gd.toString());
+//				log.info(gd.toString());
 				gd.setGoods_id(goods.getId());
 				commerceMapper.insertGoodsDetail(gd);
 			}
