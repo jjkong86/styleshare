@@ -1,7 +1,5 @@
 package styleshare.task.thread;
 
-import static org.junit.Assert.assertEquals;
-
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.DelayQueue;
 import java.util.concurrent.ExecutorService;
@@ -9,9 +7,8 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 
-import org.junit.Test;
-
 import lombok.AllArgsConstructor;
+import org.junit.Test;
 
 @AllArgsConstructor
 public class DelayQueueConsumer implements Runnable {
