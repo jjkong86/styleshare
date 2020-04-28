@@ -54,4 +54,9 @@ dependencies {
 	compile group: 'commons-io', name: 'commons-io', version: '2.6'
 	compile group: 'org.apache.httpcomponents', name: 'httpcore', version: '4.4.11'
 	compile group: 'com.google.guava', name: 'guava', version: '28.1-jre'
+
+	compile group: 'io.springfox', name: 'springfox-swagger2', version: '2.9.2'
+	compile group: 'io.springfox', name: 'springfox-swagger-ui', version: '2.9.2'
+	implementation 'junit:junit:4.12'
+
 }

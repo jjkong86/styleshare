@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
 
+import org.springframework.stereotype.Component;
 import styleshare.task.model.Cart;
 import styleshare.task.model.CartList;
 import styleshare.task.model.Goods;
@@ -11,7 +12,7 @@ import styleshare.task.model.GoodsDetail;
 import styleshare.task.model.User;
 import styleshare.task.request.PutGoodsToCartRequest;
 
-@Mapper
+@Component
 public interface CommerceMapper {
 	int insertGoods(Goods goods);
 	
