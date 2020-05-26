@@ -16,7 +16,7 @@ public enum PaymentType {
 
     public static PaymentType findByName(String name) {
         return Arrays.stream(PaymentType.values())
-                .filter(fleaMarketSlotPurchase -> fleaMarketSlotPurchase.getName().equals(name))
+                .filter(paymentType -> paymentType.getName().equals(name))
                 .findFirst().orElse(EMPTY);
     }
 }

@@ -16,7 +16,7 @@ public class PayController {
     }
 
     @GetMapping(value="/{pay}/pay")
-    public String getBean(@PathVariable String pay) {
+    public String pay(@PathVariable String pay) {
         return paymentService.prepare(PaymentType.findByName(pay));
     }
 }
