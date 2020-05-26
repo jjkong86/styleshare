@@ -1,0 +1,9 @@
+GET localhost:8080/kakao/pay
+###
+
+GET localhost:8080/naver/pay
+
+###
+GET localhost:8080/toss/pay
+
+###
