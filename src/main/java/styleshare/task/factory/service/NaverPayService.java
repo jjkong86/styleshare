@@ -1,13 +1,14 @@
 package styleshare.task.factory.service;
 
-import styleshare.task.factory.beanFactory.PaymentType;
 import org.springframework.stereotype.Service;
+import styleshare.task.factory.beanFactory.PaymentType;
+import styleshare.task.response.NaverPayResponse;
 
 @Service("NAVERPAY")
-public class NaverPayService implements PayService {
+public class NaverPayService implements PayService<NaverPayResponse> {
 
     @Override
-    public String prepare(PaymentType paymentType) {
-        return paymentType + "를 사용중입니다.";
+    public NaverPayResponse prepare(PaymentType paymentType) {
+        return NaverPayResponse.builder().description(paymentType + "를 사용중입니다.").build();
     }
 }

@@ -5,6 +5,7 @@ import styleshare.task.factory.service.PaymentService;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
+import styleshare.task.response.ApiCommonResponse;
 
 @RestController
 public class PayController {
@@ -16,7 +17,7 @@ public class PayController {
     }
 
     @GetMapping(value="/{pay}/pay")
-    public String pay(@PathVariable String pay) {
+    public ApiCommonResponse pay(@PathVariable String pay) {
         return paymentService.prepare(PaymentType.findByName(pay));
     }
 }

@@ -14,7 +14,7 @@ public class PaymentHandlerLocator {
         this.beanFactory = beanFactory;
     }
 
-    public PayService getPaymentHandler(PaymentType paymentType) {
+    public PayService<?> getPaymentHandler(PaymentType paymentType) {
         String beanName = paymentType.toString();
         try {
             return beanFactory.getBean(beanName, PayService.class);
