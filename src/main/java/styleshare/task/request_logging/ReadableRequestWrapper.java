@@ -60,11 +60,10 @@ public class ReadableRequestWrapper extends HttpServletRequestWrapper {
 				setParameter("requestBody", jsonArray.toJSONString());
 			} else {
 				JSONObject jsonObject = (JSONObject)jsonParser.parse(collect);
-				Iterator iterator = jsonObject.keySet().iterator();
-				while (iterator.hasNext()) {
-					String key = (String)iterator.next();
-					setParameter(key, jsonObject.get(key).toString().replace("\"", "\\\""));
-				}
+                for (Object o : jsonObject.keySet()) {
+                    String key = (String) o;
+                    setParameter(key, jsonObject.get(key).toString().replace("\"", "\\\""));
+                }
 			}
 		} catch (Exception e) {
 			log.error("ReadableRequestWrapper init error", e);

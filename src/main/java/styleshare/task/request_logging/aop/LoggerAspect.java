@@ -36,33 +36,29 @@ public class LoggerAspect {
 
 	@Around("loggerPointCut()")
 	public Object methodLogger(ProceedingJoinPoint proceedingJoinPoint) throws Throwable {
-		try {
-			Object result = proceedingJoinPoint.proceed();
-			HttpServletRequest request = ((ServletRequestAttributes)RequestContextHolder.getRequestAttributes()).getRequest(); // request 정보를 가져온다.
+        Object result = proceedingJoinPoint.proceed();
+        HttpServletRequest request = ((ServletRequestAttributes)RequestContextHolder.getRequestAttributes()).getRequest(); // request 정보를 가져온다.
 
-			String controllerName = proceedingJoinPoint.getSignature().getDeclaringType().getSimpleName();
-			String methodName = proceedingJoinPoint.getSignature().getName();
+        String controllerName = proceedingJoinPoint.getSignature().getDeclaringType().getSimpleName();
+        String methodName = proceedingJoinPoint.getSignature().getName();
 
-			Map<String, Object> params = new LinkedHashMap<>();
+        Map<String, Object> params = new LinkedHashMap<>();
 
-			try {
-				params.put("request_uri", request.getRequestURI());
-				params.put("http_method", request.getMethod());
-				params.put("controller", controllerName);
-				params.put("method", methodName);
-				params.put("params", getParams(request));
-				params.put("log_time", new Date());
-			} catch (Exception e) {
-				log.error("LoggerAspect error", e);
-			}
-			log.info("params : {}", new GsonBuilder().setPrettyPrinting().create().toJson(params)); // param에 담긴 정보들을 한번에 로깅한다.
+        try {
+            params.put("request_uri", request.getRequestURI());
+            params.put("http_method", request.getMethod());
+            params.put("controller", controllerName);
+            params.put("method", methodName);
+            params.put("params", getParams(request));
+            params.put("log_time", new Date());
+        } catch (Exception e) {
+            log.error("LoggerAspect error", e);
+        }
+        log.info("params : {}", new GsonBuilder().setPrettyPrinting().create().toJson(params)); // param에 담긴 정보들을 한번에 로깅한다.
 
-			return result;
+        return result;
 
-		} catch (Throwable throwable) {
-			throw throwable;
-		}
-	}
+    }
 	
 	@AfterReturning(value = "execution(* styleshare.task..*Controller.*(..))", returning = "result")
 	public void onAfterReturningLogHandler(JoinPoint joinPoint, Object result) {

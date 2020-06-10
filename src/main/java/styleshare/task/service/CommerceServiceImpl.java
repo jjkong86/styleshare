@@ -10,7 +10,7 @@ import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.StringJoiner;
 
-import javax.transaction.Transactional;
+import javax.annotation.PostConstruct;
 
 import org.springframework.stereotype.Service;
 
@@ -18,6 +18,7 @@ import com.google.gson.Gson;
 import com.google.gson.stream.JsonReader;
 
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.transaction.annotation.Transactional;
 import styleshare.task.common.CommonUtil;
 import styleshare.task.exception.ValidCustomException;
 import styleshare.task.mapper.CommerceMapper;
@@ -40,15 +41,14 @@ public class CommerceServiceImpl implements CommerceService {
         this.commerceMapper = commerceMapper;
     }
 
-	public GoodsListRespose goodsAll() throws FileNotFoundException {
+    @PostConstruct
+	void init() throws FileNotFoundException {
+    	this.goodsInsertToJsonFile();
+	}
+
+	public GoodsListRespose goodsAll() {
 		GoodsListRespose goodsList = new GoodsListRespose();
 		List<Goods> goods = commerceMapper.goodsAll();
-		
-    	if (goods.size() < 1) { //중복 insert 방지
-    		log.info(" ===== goods is empty. insert into db from \"goods.json\" ===== ");
-    		goodsInsertToJsonFile();
-    	}
-    	
     	List<GoodsDetail> goodsDetail = commerceMapper.goodsDetailAll();
 		return makeGoodsList(goodsList, goods, goodsDetail);
 	}
@@ -60,11 +60,11 @@ public class CommerceServiceImpl implements CommerceService {
 			map.put(g.getId(), g);
 			goodsList.getGoods().add(g);
 		}
-    	
-    	for (int i = 0; i < goodsDetail.size(); i++) {
-    		long id = goodsDetail.get(i).getGoods_id();
+
+		for (GoodsDetail detail : goodsDetail) {
+			long id = detail.getGoods_id();
 			if (map.containsKey(id)) {
-				map.get(id).getOptions().add(goodsDetail.get(i));
+				map.get(id).getOptions().add(detail);
 			}
 		}
     	log.info(goodsList.toString());
@@ -89,8 +89,7 @@ public class CommerceServiceImpl implements CommerceService {
 	}
 
 	public Goods goodsToId(long id) {
-		Goods goods = commerceMapper.goodsToId(id);
-		return goods;
+		return commerceMapper.goodsToId(id);
 	}
 
 	@Transactional
@@ -99,8 +98,8 @@ public class CommerceServiceImpl implements CommerceService {
 		List<Goods> goods = commerceMapper.goodsListToCartExisit(param);
 		if (goods.size() > 0) {
 			StringJoiner sb = new StringJoiner(", ");
-			for (int i = 0; i < goods.size(); i++) {
-				sb.add(goods.get(i).getName());
+			for (Goods good : goods) {
+				sb.add(good.getName());
 			}
 			throw new ValidCustomException("[ "+sb.toString()+"] is exsist to cart.");
 		}
