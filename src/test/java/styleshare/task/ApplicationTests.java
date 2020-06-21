@@ -11,7 +11,6 @@ import org.junit.runner.RunWith;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import com.google.gson.Gson;
@@ -20,7 +19,7 @@ import com.google.gson.stream.JsonReader;
 import styleshare.task.mapper.CommerceMapper;
 import styleshare.task.model.Goods;
 import styleshare.task.model.GoodsDetail;
-import styleshare.task.response.GoodsListRespose;
+import styleshare.task.response.GoodsListResponse;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = Application.class)
@@ -34,8 +33,8 @@ public class ApplicationTests {
 	public void goodsInsertToJsonFile() throws FileNotFoundException {
 		Gson gson = new Gson();
 		JsonReader reader = new JsonReader(new FileReader(JSON_FILE_PATH));
-		GoodsListRespose data = gson.fromJson(reader, GoodsListRespose.class);
-		List<Goods> list = data.getGoods();
+		GoodsListResponse data = gson.fromJson(reader, GoodsListResponse.class);
+		List<Goods> list = data.getGoodsList();
 		for (Goods goods : list) {
 //			log.info(goods.toString());
 			commerceMapper.insertGoods(goods);

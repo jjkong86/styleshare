@@ -63,8 +63,8 @@
 	        dataType : "json",
 	        async:false,
 	        success : function(data){
-	        	console.log(data.goods);
-	            var goods = data.goods;
+	        	console.log(data.goodsList);
+	            var goods = data.goodsList;
 	            var str='';
 	            for (var i=0; i<goods.length; i++) {
 	            	goodsData[goods[i].id] = goods[i];

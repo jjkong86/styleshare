@@ -9,11 +9,10 @@ import styleshare.task.model.CartList;
 import styleshare.task.request.PutGoodsToCartRequest;
 import styleshare.task.response.ApiCommonResponse;
 import styleshare.task.response.CartResponse;
-import styleshare.task.response.GoodsListRespose;
-import styleshare.task.service.CommerceServiceImpl;
+import styleshare.task.response.GoodsListResponse;
+import styleshare.task.service.CommerceService;
 
 import javax.validation.Valid;
-import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -24,10 +23,10 @@ import java.util.Objects;
 @AllArgsConstructor
 public class CommerceController {
 
-    private CommerceServiceImpl commerceService;
+    private CommerceService commerceService;
 
     @RequestMapping(value = "/goods", method = RequestMethod.GET)
-    public GoodsListRespose goodsAll() throws FileNotFoundException {
+    public GoodsListResponse goodsAll() {
         return commerceService.goodsAll();
     }
 
