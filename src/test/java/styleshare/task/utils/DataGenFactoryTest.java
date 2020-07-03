@@ -3,6 +3,7 @@ package styleshare.task.utils;
 import org.apache.commons.math3.distribution.EnumeratedDistribution;
 import org.apache.commons.math3.util.Pair;
 import org.junit.Test;
+import styleshare.task.DataGenFactory;
 
 import java.util.*;
 
@@ -20,11 +21,11 @@ public class DataGenFactoryTest {
         mileageList.add(new Pair<>(6, 5d));
 
         //then
-        EnumeratedDistribution<Integer> dist = new EnumeratedDistribution<>(mileageList);
+        DataGenFactory dist = new DataGenFactory(mileageList);
         Map<Integer, Integer> map = new HashMap<>();
         int length = 10000000;
         for (int i = 0; i < length; i++) {
-            Integer pair = dist.sample();
+            Integer pair = dist.getWeightedRandomSample();
             map.put(pair, map.getOrDefault(pair, 0) + 1);
         }
 
