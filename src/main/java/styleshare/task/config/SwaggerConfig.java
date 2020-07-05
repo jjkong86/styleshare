@@ -17,7 +17,7 @@ import java.util.Arrays;
 
 @Configuration
 @EnableSwagger2
-public class SpringFoxConfig {
+public class SwaggerConfig {
     @Bean
     public Docket api() {
         return new Docket(DocumentationType.SWAGGER_2).select()

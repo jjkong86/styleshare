@@ -7,6 +7,7 @@
 * 서버는 REST API로 구현(REST API 스팩으로 구현)
 * URL : http://localhost:8080/
 * H2 CONSOLE URL : http://localhost:8080/h2console
+* Api Document Swagger2 : http://127.0.0.1:8080/swagger-ui.html
 
 ## 구현해볼 사항
 * 상품 리스트 페이지
