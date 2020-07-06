@@ -6,6 +6,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import styleshare.task.model.Cart;
 import styleshare.task.model.CartList;
+import styleshare.task.model.Goods;
 import styleshare.task.request.PutGoodsToCartRequest;
 import styleshare.task.response.ApiCommonResponse;
 import styleshare.task.response.CartResponse;
@@ -46,8 +47,8 @@ public class CommerceController {
     }
 
     @RequestMapping(value = "/carts/{goodsId}", method = RequestMethod.POST)
-    public ApiCommonResponse putGoodsToCart(@PathVariable("goodsId") int goodsId, @RequestBody PutGoodsToCartRequest param) {
-        return commerceService.putGoodsToCart(goodsId, param);
+    public ApiCommonResponse putGoodsToCart(@RequestBody PutGoodsToCartRequest param) {
+        return commerceService.putGoodsToCart(param);
     }
 
     @RequestMapping(value = "/carts/count", method = RequestMethod.GET)
@@ -76,5 +77,10 @@ public class CommerceController {
     @RequestMapping(value = "/carts/{cartId}", method = RequestMethod.GET)
     public Cart getCartToId(@PathVariable("cartId") int cartId) {
         return commerceService.getCartToId(cartId);
+    }
+
+    @RequestMapping(value = "/goods/{goodsId}", method = RequestMethod.GET)
+    public Goods getCartToId(@PathVariable long goodsId) {
+        return commerceService.goodsById(goodsId);
     }
 }

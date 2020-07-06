@@ -3,6 +3,7 @@ package styleshare.task.service;
 import com.google.gson.Gson;
 import com.google.gson.stream.JsonReader;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import styleshare.task.common.CommonUtil;
@@ -36,7 +37,8 @@ public class CommerceService {
     }
 
     @PostConstruct
-    void init() throws FileNotFoundException {
+    @Cacheable(cacheNames = "goods")
+    public void init() throws FileNotFoundException {
         this.goodsInsertToJsonFile();
     }
 
@@ -93,7 +95,7 @@ public class CommerceService {
     }
 
     @Transactional
-    public ApiCommonResponse putGoodsToCart(int goodsId, PutGoodsToCartRequest param) {
+    public ApiCommonResponse putGoodsToCart(PutGoodsToCartRequest param) {
         ApiCommonResponse res = new CartResponse();
         int cart = commerceMapper.goodsToCartExisit(param);
         if (cart > 0) throw new ValidCustomException("goods exsist to cart.");
@@ -158,5 +160,12 @@ public class CommerceService {
         Cart result = commerceMapper.getCartToId(cartId);
         log.info(result.toString());
         return result;
+    }
+
+    @Cacheable(cacheNames = "goods", key = "#goodsId")
+    public Goods goodsById(long goodsId) {
+        List<Goods> goods = commerceMapper.goodsAll();
+        return goods.stream().filter(elem -> elem.getId() == goodsId).findFirst()
+                .orElseThrow(() -> new ValidCustomException("goods Id : " + goodsId + " is not found."));
     }
 }
