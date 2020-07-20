@@ -15,7 +15,7 @@ public class CollectionUtil {
     }
 
     // group by key to list
-    public <E extends CommonVo<? extends Number>> List<E> distinctToList(List<E> list) {
+    public <E extends CommonCollectionKey<? extends Number>> List<E> distinctToList(List<E> list) {
         return list.stream().filter(distinctByKey(E::getCollectionKey)).collect(Collectors.toList());
     }
 }
