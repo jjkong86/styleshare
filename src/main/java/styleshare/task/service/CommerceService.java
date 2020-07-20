@@ -37,7 +37,6 @@ public class CommerceService {
     }
 
     @PostConstruct
-    @Cacheable(cacheNames = "goods")
     public void init() throws FileNotFoundException {
         this.goodsInsertToJsonFile();
     }
